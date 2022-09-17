@@ -2,12 +2,11 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../de.schuetzmarvin.caspprovidermod">
+      <sourceFolder url="file://$MODULE_DIR$/../de.schuetzmarvin.caspprovidermod/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="de.schuetzmarvin.caspprovidermod" />
-    <orderEntry type="module" module-name="de.schuetzmarvin.caspformatequalizermod" />
+    <orderEntry type="library" name="org.jsoup:jsoup:1.15.3" level="project" />
   </component>
 </module>

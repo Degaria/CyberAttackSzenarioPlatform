@@ -2,11 +2,11 @@ package de.schuetzmarvin.caspformatequalizermod;
 
 import org.json.JSONObject;
 import org.json.XML;
-
 import java.io.FileWriter;
+import org.apache.commons.io.FilenameUtils;
 import java.io.IOException;
 
- class FormatEqualizerClass implements IFormatEqualizer {
+ public class FormatEqualizerClass implements IFormatEqualizer {
     public static void main(String[] args) throws IOException {
         FormatEqualizerClass f = new FormatEqualizerClass();
 
@@ -48,4 +48,20 @@ import java.io.IOException;
         writer.write(xml);
         writer.close();
     }
-}
+
+     @Override
+     public boolean is_xml(String path_to_file) {
+         String extension = FilenameUtils.getExtension(path_to_file);
+         String xml_extension = "xml";
+         if(extension.equals(xml_extension)) {
+             return true;
+         }
+         return false;
+     }
+
+     @Override
+     public String get_file_extension(String path_to_file) {
+         return FilenameUtils.getExtension(path_to_file);
+     }
+
+ }
