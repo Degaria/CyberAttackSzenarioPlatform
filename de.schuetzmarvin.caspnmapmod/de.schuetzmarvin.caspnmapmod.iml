@@ -8,6 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="de.schuetzmarvin.caspprovidermod" />
-    <orderEntry type="module" module-name="de.schuetzmarvin.caspformatequalizermod" />
+    <orderEntry type="module" module-name="de.schuetzmarvin.caspconvertermod" />
   </component>
 </module>

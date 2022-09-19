@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="de.schuetzmarvin.caspformatequalizermod" options="--add-exports java.corba/org=de.schuetzmarvin.caspformatequalizermod" />
+      <module name="de.schuetzmarvin.caspconvertermod" options="--add-exports java.corba/org=de.schuetzmarvin.caspformatequalizermod" />
       <module name="de.schuetzmarvin.caspprovidermod" options="--add-exports java.xml/org.w3c=de.schuetzmarvin.caspprovidermod" />
     </option>
   </component>

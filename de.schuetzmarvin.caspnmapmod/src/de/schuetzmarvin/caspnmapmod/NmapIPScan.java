@@ -2,10 +2,10 @@ package de.schuetzmarvin.caspnmapmod;
 
 import java.io.*;
 
-import de.schuetzmarvin.caspformatequalizermod.FormatEqualizerClass;
+import de.schuetzmarvin.caspconvertermod.FormatEqualizerClass;
 import de.schuetzmarvin.caspprovidermod.ProviderNmapClass;
 import org.xml.sax.SAXException;
-import de.schuetzmarvin.caspformatequalizermod.IFormatEqualizer;
+import de.schuetzmarvin.caspconvertermod.IFormatEqualizer;
 import javax.xml.parsers.ParserConfigurationException;
 import de.schuetzmarvin.caspprovidermod.IProvider;
 

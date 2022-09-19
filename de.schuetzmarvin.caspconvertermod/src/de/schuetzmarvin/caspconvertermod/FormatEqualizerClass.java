@@ -1,4 +1,4 @@
-package de.schuetzmarvin.caspformatequalizermod;
+package de.schuetzmarvin.caspconvertermod;
 
 import org.json.JSONObject;
 import org.json.XML;

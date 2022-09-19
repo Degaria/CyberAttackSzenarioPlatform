@@ -8,5 +8,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="de.schuetzmarvin.caspnmapmod" />
+    <orderEntry type="module" module-name="de.schuetzmarvin.casphydramod" />
+    <orderEntry type="module" module-name="de.schuetzmarvin.caspoutputmod" />
+    <orderEntry type="module" module-name="de.schuetzmarvin.caspscriptsmod" />
+    <orderEntry type="module" module-name="de.schuetzmarvin.caspvalidatormod" />
   </component>
 </module>

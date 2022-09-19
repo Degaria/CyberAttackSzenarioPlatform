@@ -1,7 +1,6 @@
-package de.schuetzmarvin.caspformatequalizermod;
+package de.schuetzmarvin.caspconvertermod;
 
 
-import java.io.File;
 import java.io.IOException;
 
 public interface IFormatEqualizer {

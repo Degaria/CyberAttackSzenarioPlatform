@@ -1,4 +1,4 @@
-package de.schuetzmarvin.caspformatequalizermod;
+package de.schuetzmarvin.caspconvertermod;
 
 import java.io.*;
 

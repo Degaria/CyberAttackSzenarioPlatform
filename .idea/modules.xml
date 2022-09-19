@@ -3,11 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CyberAttackSzenarioPlatform.iml" filepath="$PROJECT_DIR$/CyberAttackSzenarioPlatform.iml" />
-      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspformatequalizermod/de.schuetzmarvin.caspformatequalizermod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspformatequalizermod/de.schuetzmarvin.caspformatequalizermod.iml" />
-      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspmainmod/de.schuetzmarvin.caspmainmod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspmainmod/de.schuetzmarvin.caspmainmod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspcontrollermod/de.schuetzmarvin.caspcontrollermod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspcontrollermod/de.schuetzmarvin.caspcontrollermod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspconvertermod/de.schuetzmarvin.caspconvertermod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspconvertermod/de.schuetzmarvin.caspconvertermod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.casphydramod/de.schuetzmarvin.casphydramod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.casphydramod/de.schuetzmarvin.casphydramod.iml" />
       <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspnmapmod/de.schuetzmarvin.caspnmapmod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspnmapmod/de.schuetzmarvin.caspnmapmod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspoutputmod/de.schuetzmarvin.caspoutputmod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspoutputmod/de.schuetzmarvin.caspoutputmod.iml" />
       <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspprovidermod/de.schuetzmarvin.caspprovidermod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspprovidermod/de.schuetzmarvin.caspprovidermod.iml" />
       <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspscriptsmod/de.schuetzmarvin.caspscriptsmod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspscriptsmod/de.schuetzmarvin.caspscriptsmod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/de.schuetzmarvin.caspvalidatormod/de.schuetzmarvin.caspvalidatormod.iml" filepath="$PROJECT_DIR$/de.schuetzmarvin.caspvalidatormod/de.schuetzmarvin.caspvalidatormod.iml" />
     </modules>
   </component>
 </project>
