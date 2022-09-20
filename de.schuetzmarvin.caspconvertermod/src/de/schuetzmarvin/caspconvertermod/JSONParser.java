@@ -2,7 +2,7 @@ package de.schuetzmarvin.caspconvertermod;
 
 import java.io.*;
 
- class JSONParser {
+ public class JSONParser {
     public static String getJSONFromFile(String file){
         String json_text = "";
         try {

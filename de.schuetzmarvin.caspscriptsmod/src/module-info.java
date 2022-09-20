@@ -1,4 +1,6 @@
 module de.schuetzmarvin.caspscriptsmod {
-    requires de.schuetzmarvin.caspprovidermod;
     requires java.xml;
+    requires de.schuetzmarvin.caspprovidermod;
+    requires de.schuetzmarvin.caspconvertermod;
+
 }

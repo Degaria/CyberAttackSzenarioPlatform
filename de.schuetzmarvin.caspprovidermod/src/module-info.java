@@ -1,6 +1,6 @@
 module de.schuetzmarvin.caspprovidermod {
     requires java.xml;
-    requires org.jsoup;
-    requires de.schuetzmarvin.caspconvertermod;
+    requires org.apache.commons.io;
     exports de.schuetzmarvin.caspprovidermod;
+
 }

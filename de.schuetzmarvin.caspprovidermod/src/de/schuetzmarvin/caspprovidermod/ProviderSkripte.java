@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 //import org.jsoup.*;
 //import org.jsoup.nodes.Document;
-import org.jsoup.parser.Parser;
+//import org.jsoup.parser.Parser;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -20,6 +20,11 @@ import javax.xml.parsers.ParserConfigurationException;
 public class ProviderSkripte implements IProvider {
     @Override
     public boolean check_if_is_done(String file) throws IOException {
+        return false;
+    }
+
+    @Override
+    public boolean is_xml(String path_to_file) {
         return false;
     }
 
@@ -63,23 +68,5 @@ public class ProviderSkripte implements IProvider {
     }
 }
 
-
-        /*Document doc = Jsoup.parse(file, "",Parser.xmlParser());
-        for(Element element : doc.getElementsByTag("address")){
-            System.out.println(element.attr("addr"));
-            if(element.hasAttr("vendor") == true){
-            }else{
-                String ip_address = element.attr("address");
-                for(int i=0; i <= ip_address_list.size()-1; i++) {
-                    if (ip_address.equals(ip_address_list.get(i))) {
-
-                    } else {
-                        ip_address_list.add(ip_address);
-                    }
-                }
-            }
-        }
-        return ip_address_list;
-    }*/
 
 
