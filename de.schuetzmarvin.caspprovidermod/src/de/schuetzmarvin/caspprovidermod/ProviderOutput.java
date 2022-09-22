@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ProviderHydraClass implements IProvider {
+public class ProviderOutput implements IProvider {
     @Override
     public ArrayList<String> getNeededValues() {
         return null;
@@ -38,8 +38,7 @@ public class ProviderHydraClass implements IProvider {
         return false;
     }
 
-    /*
-    @Override
+    /*@Override
     public boolean check_if_is_done(String file) throws IOException {
         return false;
     }
@@ -50,14 +49,12 @@ public class ProviderHydraClass implements IProvider {
     }
 
     @Override
-    public ArrayList<String> get_ip_address(String file) {
+    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
         return null;
     }
 
     @Override
     public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
         return null;
-    }
-
-     */
+    }*/
 }

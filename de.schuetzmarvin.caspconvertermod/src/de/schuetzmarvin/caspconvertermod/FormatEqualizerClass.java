@@ -15,6 +15,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
@@ -22,9 +26,12 @@ import org.apache.commons.io.FilenameUtils;
 public class FormatEqualizerClass implements IFormatEqualizer {
     public static void main(String[] args) throws IOException {
         FormatEqualizerClass f = new FormatEqualizerClass();
-        String path_from_file = "C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.txt";
-        String path_to_file = "C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.json";
-        f.txt_to_json(path_from_file, path_to_file);
+        f.txt_to_json("C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.txt", "C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.json");
+        f.hydra_json_to_xml("C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\hydra_output.json","C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\hydra_output.xml");
+        f.json_to_xml("C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.json", "C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.xml");
+        //String path_from_file = "C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.txt";
+        //String path_to_file = "C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.json";
+        //f.txt_to_json(path_from_file, path_to_file);
         /*
         String str = "{\"menu\": {\n" +
                 "  \"id\": \"file\",\n" +
@@ -62,7 +69,8 @@ public class FormatEqualizerClass implements IFormatEqualizer {
         FileWriter writer = new FileWriter(path_to_xml_file);
         JSONObject json = new JSONObject(json_string);
         String xml = XML.toString(json);
-        writer.write(xml);
+        String well_formed_xml = well_form_xml_with_root_element(xml);
+        writer.write(well_formed_xml);
         writer.close();
     }
 
@@ -71,9 +79,17 @@ public class FormatEqualizerClass implements IFormatEqualizer {
         json = json.replace("\\", "/"); //hat 3 h gedauert
         JSONObject obj = new JSONObject(json);
         String xml = XML.toString(obj);
+        String well_formed_xml = well_form_xml_with_root_element(xml);
         FileWriter writer = new FileWriter(file_to);
-        writer.write(xml);
+        writer.write(well_formed_xml);
         writer.close();
+    }
+
+    public String well_form_xml_with_root_element(String xml_string){
+        List<InputStream> stream = Arrays.asList(new ByteArrayInputStream("<root>".getBytes()), new ByteArrayInputStream(xml_string.getBytes(StandardCharsets.UTF_8)), new ByteArrayInputStream("</root>".getBytes()));
+        InputStream container = new SequenceInputStream(Collections.enumeration(stream));
+        String xml = new BufferedReader(new InputStreamReader(container, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+        return xml;
     }
 
     @Override
@@ -94,9 +110,9 @@ public class FormatEqualizerClass implements IFormatEqualizer {
                 }else{
                    if(device.has(words[0])){
                        main_obj.put("Device" + i, device);
-                       i++;
                        device = new JSONObject();
                        device.put(words[0], words[1]); // hat 2 1/2 Stunden gedauert
+                       i++;
                    }else{
                        device.put(words[0], words[1]);
                    }

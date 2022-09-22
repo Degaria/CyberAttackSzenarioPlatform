@@ -1,31 +1,31 @@
 package de.schuetzmarvin.caspprovidermod;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-//import org.jsoup.*;
-//import org.jsoup.nodes.Document;
-//import org.jsoup.parser.Parser;
+import org.apache.commons.io.FilenameUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class ProviderSkripte implements IProvider {
+public class ProviderScripts implements IProvider {
+    //IConverter converter = new ConverterAdapterScripts();//TODO muss in die Scripts Klasse im Script Modul
     @Override
-    public ArrayList<String> getNeededValues() {
+    public List<Needed_Values> getNeededValues() {
         return null;
     }
 
     @Override
-    public ArrayList<String> getProvidedValues() {
+    public List<Provided_Values> getProvidedValues() {
         return null;
     }
 
@@ -35,32 +35,30 @@ public class ProviderSkripte implements IProvider {
     }
 
     @Override
-    public File getFile() {
+    public String getFilePath(File file) {
         return null;
     }
 
     @Override
-    public void saveFile(Object value) {
-
+    public void saveFile(String value, String filename) throws IOException {
+        FileWriter writer = new FileWriter(getFilePath(new File(filename)));
+        writer.write(value);
+        writer.close();
+        return;
     }
 
     @Override
     public boolean isXml(String path_to_file) {
+        String extension = FilenameUtils.getExtension(path_to_file);
+        String xml_extension = "xml";
+        if(extension.equals(xml_extension)) {
+            return true;
+        }
         return false;
     }
 
-   /* @Override
-    public boolean check_if_is_done(String file) throws IOException {
-        return false;
-    }
 
-    @Override
-    public boolean is_xml(String path_to_file) {
-        return false;
-    }
-
-    @Override
-    public ArrayList<String> get_ip_address_nmap_file(String file) throws ParserConfigurationException, IOException, SAXException {
+    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
         boolean helper_for_double_values = false;
         ArrayList<String> ip_address_list = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -98,7 +96,7 @@ public class ProviderSkripte implements IProvider {
         return ip_address_list;
     }
 
-    public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
+    public ArrayList<String> get_information_for_cps(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
         ArrayList<String> all_information = new ArrayList<>();
         ArrayList<String> hydra_information = get_information_hydra(file_hydra);
         ArrayList<String> lupi_information = get_information_lupi(file_lupi);
@@ -112,6 +110,7 @@ public class ProviderSkripte implements IProvider {
 
         return all_information;
     }
+
     public ArrayList<String> get_information_hydra(String hydra_file) throws ParserConfigurationException, IOException, SAXException {
         ArrayList<String> all_information = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -173,14 +172,29 @@ public class ProviderSkripte implements IProvider {
                     return subList.item(0).getNodeValue();
                 }
             }else{
-                    return list.item(0).getNodeValue();
+                return list.item(0).getNodeValue();
             }
         }
 
         return null;
     }
-    */
+    /*@Override
+    public boolean check_if_is_done(String file) throws IOException {
+        return false;
+    }
+
+    @Override
+    public boolean is_xml(String path_to_file) {
+        return false;
+    }
+
+    @Override
+    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
+        return null;
+    }*/
 }
-
-
-

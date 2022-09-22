@@ -24,7 +24,7 @@ public class NmapIPScan implements INmap {
         //ProcessBuilder builder = new ProcessBuilder("nmap", command2);
         //builder.directory(new File("C:\\Program Files (x86)\\Nmap\\ "));
         Process proc = Runtime.getRuntime().exec(command2);
-        while(provider.check_if_is_done(file) == true) {
+        while(check_if_is_done(file) == true) {
             proc.waitFor();
         }
         proc.destroy();
@@ -32,6 +32,19 @@ public class NmapIPScan implements INmap {
         return true;
     }
 
+
+    public boolean check_if_is_done(String file) throws IOException {
+        BufferedReader checker_empty_file = new BufferedReader(new FileReader(file));
+        String lastline = "";
+        String lastlinereminder = "";
+        while ((lastline = checker_empty_file.readLine()) != null) {
+            lastlinereminder = lastline;
+        }
+        if(lastlinereminder.equals("</nmaprun>")){
+            return false;
+        }
+        return true;
+    }
 
 
 }

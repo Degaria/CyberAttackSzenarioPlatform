@@ -1,20 +1,19 @@
 package de.schuetzmarvin.caspprovidermod;
 
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ProviderHydraClass implements IProvider {
+public class ProviderStorage implements IProvider<String> {
     @Override
-    public ArrayList<String> getNeededValues() {
+    public List<Needed_Values> getNeededValues() {
         return null;
     }
 
     @Override
-    public ArrayList<String> getProvidedValues() {
+    public List<Provided_Values> getProvidedValues() {
         return null;
     }
 
@@ -24,12 +23,12 @@ public class ProviderHydraClass implements IProvider {
     }
 
     @Override
-    public File getFile() {
+    public String getFilePath(File file) {
         return null;
     }
 
     @Override
-    public void saveFile(Object value) {
+    public void saveFile(String value) throws IOException {
 
     }
 
@@ -38,8 +37,7 @@ public class ProviderHydraClass implements IProvider {
         return false;
     }
 
-    /*
-    @Override
+    /*@Override
     public boolean check_if_is_done(String file) throws IOException {
         return false;
     }
@@ -50,14 +48,12 @@ public class ProviderHydraClass implements IProvider {
     }
 
     @Override
-    public ArrayList<String> get_ip_address(String file) {
+    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
         return null;
     }
 
     @Override
     public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
         return null;
-    }
-
-     */
+    }*/
 }

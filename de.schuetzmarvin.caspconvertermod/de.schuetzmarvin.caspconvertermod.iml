@@ -20,5 +20,6 @@
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-core:2.13.3" level="project" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.13.3" level="project" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3" level="project" />
+    <orderEntry type="module" module-name="de.schuetzmarvin.caspprovidermod" />
   </component>
 </module>

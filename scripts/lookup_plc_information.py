@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import os, requests, sys, json
 
 OUTPUTFILE_TXT = "C:\\Users\\mar20266\\Documents\\SVN\BA\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.txt"
-OUTPUTFILE_JSON = "C:\\Users\\mar20266\\Documents\\SVN\BA\CyberAttackSzenarioPlatform\\tool_outputs\\look_up_plc_information_output.json"
 TIMEOUT = 5
 PLC_WAGO_880 = "880"
 PLC_WAGO_880_INFO_URL = "/webserv/cplcfg/state.ssi"
