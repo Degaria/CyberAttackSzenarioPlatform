@@ -15,6 +15,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConverterAdapterChangePLCSettingsScript implements IConverter {
+    public static void main(String[] args) throws IOException {
+        ProviderStorage provider2 = new ProviderStorage();
+        ConverterAdapterChangePLCSettingsScript converter = new ConverterAdapterChangePLCSettingsScript();
+        File file = new File("tool_outputs\\Test.txt");
+        String file_string = provider2.getFilePath(file);
+        converter.toXmlfile(file_string);
+    }
     private ProviderStorage provider = new ProviderStorage();
     @Override
     public void toXmlfile(String file) throws IOException {
@@ -22,7 +29,8 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
             return;
         }
 
-        txt_to_json(file,provider.getFilePath(new File("tool_outputs\\change_plc_settings_output.json")));
+        //txt_to_json(file,provider.getFilePath(new File("tool_outputs\\change_plc_settings_output.json")));
+        txt_to_json(file,provider.getFilePath(new File("tool_outputs\\Test.json")));
     }
 
     public void txt_to_json(String file_from, String file_to) throws IOException {
@@ -56,7 +64,7 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        json_to_xml(file_to);
+        //json_to_xml(file_to);
     }
 
     public void json_to_xml(String jsonFile) throws IOException {
