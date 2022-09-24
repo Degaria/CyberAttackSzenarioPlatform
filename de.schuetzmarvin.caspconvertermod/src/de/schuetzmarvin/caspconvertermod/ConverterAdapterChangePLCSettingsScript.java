@@ -18,7 +18,7 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
     public static void main(String[] args) throws IOException {
         ProviderStorage provider2 = new ProviderStorage();
         ConverterAdapterChangePLCSettingsScript converter = new ConverterAdapterChangePLCSettingsScript();
-        File file = new File("tool_outputs\\Test.txt");
+        File file = new File("tool_outputs\\change_plc_settings_output.txt");
         String file_string = provider2.getFilePath(file);
         converter.toXmlfile(file_string);
     }
@@ -29,23 +29,24 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
             return;
         }
 
-        //txt_to_json(file,provider.getFilePath(new File("tool_outputs\\change_plc_settings_output.json")));
-        txt_to_json(file,provider.getFilePath(new File("tool_outputs\\Test.json")));
+        txt_to_json(file,provider.getFilePath(new File("tool_outputs\\change_plc_settings_output.json")));
+        //txt_to_json(file,provider.getFilePath(new File("tool_outputs\\Test.json")));
     }
 
     public void txt_to_json(String file_from, String file_to) throws IOException {
         String line;
+        int i = 1;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file_from), Charset.forName("UTF-8")))) {
             JSONObject main_obj = new JSONObject();
             JSONObject device = new JSONObject();
-            int i = 1;
             while ((line = br.readLine()) != null) {
                 String[] words = line.split(" ");
                 if(device.isEmpty()) {
                     device.put(words[0], words[1]);
+                    //main_obj.put("INFORMATION", true);
                 }else{
                     if(device.has(words[0])){
-                        main_obj.put("Device" + i, device);
+                        main_obj.append("Info" + i, device);
                         device = new JSONObject();
                         device.put(words[0], words[1]); // hat 2 1/2 Stunden gedauert
                         i++;
@@ -54,7 +55,7 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
                     }
                 }
             }
-            main_obj.put("Device" + i, device);
+            main_obj.append("Info" + i, device);
             System.out.println("Object: " + main_obj);
             FileWriter file_writer = new FileWriter(file_to);
             file_writer.write(main_obj.toString());
@@ -64,7 +65,7 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //json_to_xml(file_to);
+        json_to_xml(file_to);
     }
 
     public void json_to_xml(String jsonFile) throws IOException {

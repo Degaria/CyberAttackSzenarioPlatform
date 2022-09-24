@@ -15,6 +15,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConverterAdapterLookupPLCInformationScript implements IConverter {
+    public static void main(String[] args) throws IOException {
+        ProviderStorage provider2 = new ProviderStorage();
+        ConverterAdapterLookupPLCInformationScript converter = new ConverterAdapterLookupPLCInformationScript();
+        File file = new File("tool_outputs\\look_up_plc_information_output.txt");
+        String file_string = provider2.getFilePath(file);
+        converter.toXmlfile(file_string);
+    }
     private ProviderStorage provider = new ProviderStorage();
     @Override
     public void toXmlfile(String file) throws IOException {
@@ -26,17 +33,18 @@ public class ConverterAdapterLookupPLCInformationScript implements IConverter {
 
     public void txt_to_json(String file_from, String file_to) throws IOException {
         String line;
+        int i = 1;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file_from), Charset.forName("UTF-8")))) {
             JSONObject main_obj = new JSONObject();
             JSONObject device = new JSONObject();
-            int i = 1;
             while ((line = br.readLine()) != null) {
                 String[] words = line.split(" ");
                 if(device.isEmpty()) {
                     device.put(words[0], words[1]);
+                    //main_obj.put("INFORMATION", true);
                 }else{
                     if(device.has(words[0])){
-                        main_obj.put("Device" + i, device);
+                        main_obj.append("Info" + i, device);
                         device = new JSONObject();
                         device.put(words[0], words[1]); // hat 2 1/2 Stunden gedauert
                         i++;
@@ -45,7 +53,7 @@ public class ConverterAdapterLookupPLCInformationScript implements IConverter {
                     }
                 }
             }
-            main_obj.put("Device" + i, device);
+            main_obj.append("Info" + i, device);
             System.out.println("Object: " + main_obj);
             FileWriter file_writer = new FileWriter(file_to);
             file_writer.write(main_obj.toString());
