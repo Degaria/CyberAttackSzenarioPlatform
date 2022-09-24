@@ -11,22 +11,28 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Nmap implements INmap {
-    public final String TOOL_NAME = "Nmap";
+    public final String TOOL_NAME;
+    IProvider provider;
+    IConverter converter;
+    public Nmap(){
+         this.TOOL_NAME ="Nmap";
+         this.provider = new ProviderNmap();
+         this.converter = new ConverterAdapterNmap();
+    }
+
     @Override
     public boolean run(String ip_address) throws IOException, InterruptedException {
         if(!new File("tool_outputs\\nmap_output.xml").exists()){
             new File("tool_outputs\\nmap_output.xml").createNewFile(); //TODO: Machs schöner!!!
         }
-        IProvider provider = new ProviderNmap();
-        IConverter converter = new ConverterAdapterNmap();
-        String nmap_command= "nmap -oX " + provider.getFilePath(new File("tool_outputs\\nmap_output.xml")) + " -p 1-100 " + ip_address;
+        String nmap_command= "nmap -oX " + this.provider.getFilePath(new File("tool_outputs\\nmap_output.xml")) + " -p 1-100 " + ip_address;
         String cmd_exec_command =  "cmd.exe /c cd  C:\\Program Files (x86)\\Nmap\\ & start cmd.exe /k " + nmap_command;
         Process proc = Runtime.getRuntime().exec(cmd_exec_command);
-        while(check_if_is_done(provider.getFilePath(new File("tool_outputs\\nmap_output.xml"))) == true) {
+        while(check_if_is_done(this.provider.getFilePath(new File("tool_outputs\\nmap_output.xml"))) == true) {
             proc.waitFor();
         }
         proc.destroy();
-        converter.toXmlfile(provider.getFilePath(new File("tool_outputs\\nmap_output.xml")));
+        converter.toXmlfile(this.provider.getFilePath(new File("tool_outputs\\nmap_output.xml")));
         return true;
     }
 
@@ -40,6 +46,18 @@ public class Nmap implements INmap {
         if(lastlinereminder.equals("</nmaprun>")){
             return false;
         }
+        return true;
+    }
+
+    public IProvider getProvider(){
+        return this.provider;
+    }
+
+    public boolean checkIFconfiguration() {
+        if(this.getProvider().getNeededValuesManual().isEmpty()){
+            return false;
+        }
+
         return true;
     }
 

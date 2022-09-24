@@ -8,11 +8,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Hydra implements IHydra{
-    public final String TOOL_NAME = "Hydra";
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public final String TOOL_NAME;
+    IProvider provider;
+    IConverter converter;
 
-        Hydra h = new Hydra();
-        h.run("192.168.1.2", "bla","21", "admin");
+    public Hydra(){
+        this.TOOL_NAME = "Hydra";
+        this.provider = new ProviderHydra();
+        this.converter  = new ConverterAdapterHydra();
     }
 
     public boolean run(String ip_address, String dictionary, String port, String username) throws IOException, InterruptedException {
@@ -20,13 +23,24 @@ public class Hydra implements IHydra{
             new File("tool_outputs\\hydra_output.json").createNewFile(); //TODO: Machs schöner!!!
         }
         Thread.sleep(10000);
-        IProvider provider = new ProviderHydra();
-        IConverter converter = new ConverterAdapterHydra();
-        String hydra_command = "hydra -o " + provider.getFilePath(new File("tool_outputs\\hydra_output.json")) + " -b json -s " + port + " -l " + username + " -P " + provider.getFilePath(new File("documents\\dictionary.txt")) + " " + ip_address + " ftp";
+
+        String hydra_command = "hydra -o " + this.provider.getFilePath(new File("tool_outputs\\hydra_output.json")) + " -b json -s " + port + " -l " + username + " -P " + this.provider.getFilePath(new File("documents\\dictionary.txt")) + " " + ip_address + " ftp";
         String command_exec_cmd =  "cmd.exe /c cd  C:\\Program Files (x86)\\thc-hydra-windows-master\\ & start cmd.exe /k " + hydra_command;
         Runtime.getRuntime().exec(command_exec_cmd);
         Thread.sleep(20000);
-        converter.toXmlfile(provider.getFilePath(new File("tool_outputs\\hydra_output.json")));
+        this.converter.toXmlfile(this.provider.getFilePath(new File("tool_outputs\\hydra_output.json")));
+        return true;
+    }
+
+    public IProvider getProvider(){
+        return this.provider;
+    }
+
+    public boolean checkIFconfiguration() {
+        if(this.getProvider().getNeededValuesManual().isEmpty()){
+            return false;
+        }
+
         return true;
     }
 

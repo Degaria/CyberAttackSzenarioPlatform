@@ -11,12 +11,12 @@ import java.util.List;
 
 public class ProviderSkripte implements IProvider {
     @Override
-    public List<Needed_Values> getNeededValues() {
+    public List<ValuesEnum> getNeededValues() {
         return null;
     }
 
     @Override
-    public List<Provided_Values> getProvidedValues() {
+    public List<ValuesEnum> getProvidedValues() {
         return null;
     }
 

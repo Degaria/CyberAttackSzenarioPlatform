@@ -8,23 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderNmap implements IProvider {
+
     @Override
-    public List<Needed_Values> getNeededValues() {
-        List<Needed_Values> needed_values = List.of(Needed_Values.IP_ADDRESS);
+    public List<ValuesEnum> getNeededValuesAutomatic() {
+        List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
         return needed_values;
     }
 
     @Override
-    public List<Provided_Values> getProvidedValues() {
-        List<Provided_Values> provided_values = List.of(Provided_Values.IP_ADDRESS, Provided_Values.MAC_ADDRESS, Provided_Values.PORT_ID, Provided_Values.PORT_PROTOCOL, Provided_Values.PORT_STATUS, Provided_Values.VENDOR,Provided_Values.PORT_SERVICE_NAME);
-        return provided_values;
+    public List<ValuesEnum> getNeededValuesManual() {
+        List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
+        return needed_values;
     }
 
     @Override
-    public ArrayList<String> getNeededParameters() {
-        ArrayList<String> needed_parametes = new ArrayList<>();
-        needed_parametes.add("ip_address");
-        return needed_parametes;
+    public List<ValuesEnum> getProvidedValues() {
+        List<ValuesEnum> _valueEnums = List.of(ValuesEnum.IP_ADDRESS, ValuesEnum.MAC_ADDRESS, ValuesEnum.PORT_ID, ValuesEnum.PORT_PROTOCOL, ValuesEnum.PORT_STATUS, ValuesEnum.VENDOR, ValuesEnum.PORT_SERVICE_NAME);
+        return _valueEnums;
     }
 
     @Override

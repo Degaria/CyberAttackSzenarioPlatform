@@ -9,20 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderOutput implements IProvider {
+
     @Override
-    public List<Needed_Values> getNeededValues() {
+    public List<ValuesEnum> getNeededValuesAutomatic() {
         return null;
     }
 
     @Override
-    public List<Provided_Values> getProvidedValues() {
+    public List<ValuesEnum> getNeededValuesManual() {
         return null;
     }
 
     @Override
-    public ArrayList<String> getNeededParameters() {
+    public List<ValuesEnum> getProvidedValues() {
         return null;
     }
+
 
     @Override
     public String getFilePath(File file) throws IOException {

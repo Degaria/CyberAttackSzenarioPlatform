@@ -18,19 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Provider_ChangePLCSettings_Script implements IProvider {
+
     @Override
-    public List<Needed_Values> getNeededValues() {
-        List<Needed_Values> neede_values = List.of(Needed_Values.USERNAME, Needed_Values.PASSWORD,Needed_Values.IP_ADDRESS,Needed_Values.NEWIP_ADDRESS,Needed_Values.PLC_TYP);
+    public List<ValuesEnum> getNeededValuesAutomatic() {
+        List<ValuesEnum> neede_values = List.of(ValuesEnum.USERNAME, ValuesEnum.PASSWORD,ValuesEnum.IP_ADDRESS,ValuesEnum.PLC_TYP);
         return neede_values;
     }
 
     @Override
-    public List<Provided_Values> getProvidedValues() {
-        return null;
+    public List<ValuesEnum> getNeededValuesManual() {
+        List<ValuesEnum> neede_values = List.of(ValuesEnum.USERNAME, ValuesEnum.PASSWORD,ValuesEnum.IP_ADDRESS,ValuesEnum.NEWIP_ADDRESS,ValuesEnum.PLC_TYP);
+        return neede_values;
     }
 
     @Override
-    public ArrayList<String> getNeededParameters() {
+    public List<ValuesEnum> getProvidedValues() {
         return null;
     }
 

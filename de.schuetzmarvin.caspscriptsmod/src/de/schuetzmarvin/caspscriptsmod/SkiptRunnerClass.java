@@ -1,5 +1,5 @@
 package de.schuetzmarvin.caspscriptsmod;
-
+/*
 import de.schuetzmarvin.caspconvertermod.ConverterAdapterScripts;
 import de.schuetzmarvin.caspconvertermod.IConverter;
 import de.schuetzmarvin.caspprovidermod.IProvider;
@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
 
-/*
+
 
 public class SkiptRunnerClass implements IScriptrunner {
     public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException {

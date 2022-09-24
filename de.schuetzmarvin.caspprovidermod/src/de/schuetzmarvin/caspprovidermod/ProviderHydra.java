@@ -9,22 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderHydra implements IProvider{
+
     @Override
-    public List<Needed_Values> getNeededValues() {
-        List<Needed_Values> needed_values = List.of(Needed_Values.IP_ADDRESS,Needed_Values.DICTIONARY,Needed_Values.USERNAME,Needed_Values.PORT);
+    public List<ValuesEnum> getNeededValuesAutomatic() {
+        List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS,ValuesEnum.PORT_ID);
         return needed_values;
     }
 
     @Override
-    public List<Provided_Values> getProvidedValues() {
-        List<Provided_Values> provided_values = List.of(Provided_Values.IP_ADDRESS,Provided_Values.PORT_SERVICE_NAME, Provided_Values.PORT_ID, Provided_Values.USERNAME,Provided_Values.PASSWORD);
-        return provided_values;
+    public List<ValuesEnum> getNeededValuesManual() {
+        List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS,ValuesEnum.DICTIONARY,ValuesEnum.USERNAME,ValuesEnum.PORT_ID);
+        return needed_values;
     }
 
     @Override
-    public ArrayList<String> getNeededParameters() {
-        return null;
+    public List<ValuesEnum> getProvidedValues() {
+        List<ValuesEnum> _valueEnums = List.of(ValuesEnum.IP_ADDRESS, ValuesEnum.PORT_SERVICE_NAME, ValuesEnum.PORT_ID, ValuesEnum.USERNAME, ValuesEnum.PASSWORD);
+        return _valueEnums;
     }
+
+
 
     @Override
     public String getFilePath(File file) {

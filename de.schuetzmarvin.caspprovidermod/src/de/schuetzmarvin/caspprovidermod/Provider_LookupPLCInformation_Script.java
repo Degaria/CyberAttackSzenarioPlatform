@@ -17,22 +17,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Provider_LookupPLCInformation_Script implements IProvider {
+
     @Override
-    public List<Needed_Values> getNeededValues() {
-        List<Needed_Values> needed_values = List.of(Needed_Values.IP_ADDRESS);
+    public List<ValuesEnum> getNeededValuesAutomatic() {
+        List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
         return needed_values;
     }
 
     @Override
-    public List<Provided_Values> getProvidedValues() {
-        List<Provided_Values> provided_values = List.of(Provided_Values.IP_ADDRESS,Provided_Values.FIRMWARE_REVISION,Provided_Values.MAC_ADDRESS,Provided_Values.ORDER_NUMBER,Provided_Values.PLC_TYP);
-        return provided_values;
+    public List<ValuesEnum> getNeededValuesManual() {
+        List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
+        return needed_values;
     }
 
     @Override
-    public ArrayList<String> getNeededParameters() {
-        return null;
+    public List<ValuesEnum> getProvidedValues() {
+        List<ValuesEnum> _valueEnums = List.of(ValuesEnum.IP_ADDRESS, ValuesEnum.FIRMWARE_REVISION, ValuesEnum.MAC_ADDRESS, ValuesEnum.ORDER_NUMBER, ValuesEnum.PLC_TYP);
+        return _valueEnums;
     }
+
+
 
     @Override
     public String getFilePath(File file) {
