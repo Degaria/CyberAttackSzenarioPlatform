@@ -1,4 +1,4 @@
-package de.schuetzmarvin.caspconvertermod;
+/*package de.schuetzmarvin.caspconvertermod;
 
 import java.io.*;
 
@@ -20,3 +20,5 @@ import java.io.*;
         return json_text;
     }
 }
+
+ */

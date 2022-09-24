@@ -1,5 +1,5 @@
 package de.schuetzmarvin.caspscriptsmod;
-
+/*
 import de.schuetzmarvin.caspconvertermod.FormatEqualizerClass;
 import de.schuetzmarvin.caspconvertermod.IFormatEqualizer;
 import de.schuetzmarvin.caspprovidermod.IProvider;
@@ -43,3 +43,5 @@ public class SkriptRunnerClass2 implements IScriptrunner{
         return true;
     }
 }
+
+ */

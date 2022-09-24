@@ -33,7 +33,11 @@ public class ProviderHydra implements IProvider{
 
     @Override
     public void saveFile(String value, String filename) throws IOException {
-        FileWriter writer = new FileWriter(getFilePath(new File(filename)));
+        File file = new File(filename);
+        if(file.exists() == false) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(getFilePath(file),false);
         writer.write(value);
         writer.close();
         return;
@@ -67,5 +71,8 @@ public class ProviderHydra implements IProvider{
     @Override
     public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
         return null;
-    }*/
+    }
+
+    */
 }
+

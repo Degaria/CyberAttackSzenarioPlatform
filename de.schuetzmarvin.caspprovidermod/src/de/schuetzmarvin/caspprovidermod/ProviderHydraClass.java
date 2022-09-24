@@ -6,7 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/*
 public class ProviderHydraClass implements IProvider {
     @Override
     public ArrayList<String> getNeededValues() {
@@ -59,5 +59,6 @@ public class ProviderHydraClass implements IProvider {
         return null;
     }
 
-     */
-}
+
+
+ */

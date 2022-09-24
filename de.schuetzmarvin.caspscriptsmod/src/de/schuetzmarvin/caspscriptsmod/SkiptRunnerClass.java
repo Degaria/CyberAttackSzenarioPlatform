@@ -1,25 +1,22 @@
 package de.schuetzmarvin.caspscriptsmod;
 
 import de.schuetzmarvin.caspconvertermod.ConverterAdapterScripts;
-import de.schuetzmarvin.caspconvertermod.FormatEqualizerClass;
 import de.schuetzmarvin.caspconvertermod.IConverter;
-import de.schuetzmarvin.caspconvertermod.IFormatEqualizer;
 import de.schuetzmarvin.caspprovidermod.IProvider;
-import de.schuetzmarvin.caspprovidermod.ProviderScripts;
-import de.schuetzmarvin.caspprovidermod.ProviderSkripte;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
 
-
+/*
 
 public class SkiptRunnerClass implements IScriptrunner {
     public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException {
 
         SkiptRunnerClass skript_test = new SkiptRunnerClass();
         skript_test.run("lookup_plc_information.py");
+        LookupPLCInformationScriptRunner s = new LookupPLCInformationScriptRunner();
     }
     @Override
     public boolean run(String script) throws IOException, InterruptedException, ParserConfigurationException, SAXException {
@@ -39,3 +36,5 @@ public class SkiptRunnerClass implements IScriptrunner {
         return true;
     }
 }
+
+ */

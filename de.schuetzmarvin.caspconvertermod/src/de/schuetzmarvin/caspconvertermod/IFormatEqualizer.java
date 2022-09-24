@@ -1,4 +1,4 @@
-package de.schuetzmarvin.caspconvertermod;
+/*package de.schuetzmarvin.caspconvertermod;
 
 
 import java.io.IOException;
@@ -10,3 +10,5 @@ public interface IFormatEqualizer {
     void txt_to_json(String file_from, String file_to);
     public void hydra_json_to_xml(String file_from, String file_to) throws IOException;
 }
+
+ */

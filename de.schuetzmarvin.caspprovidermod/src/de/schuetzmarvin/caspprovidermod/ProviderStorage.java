@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProviderStorage implements IProvider<String> {
+public class ProviderStorage implements IProvider{
     @Override
     public List<Needed_Values> getNeededValues() {
         return null;
@@ -24,12 +24,19 @@ public class ProviderStorage implements IProvider<String> {
 
     @Override
     public String getFilePath(File file) {
-        return null;
+        return file.getAbsolutePath();
     }
 
     @Override
-    public void saveFile(String value) throws IOException {
-
+    public void saveFile(String value, String filename) throws IOException {
+        File file = new File(filename);
+        if(file.exists() == false) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(getFilePath(file),false);
+        writer.write(value);
+        writer.close();
+        return;
     }
 
     @Override

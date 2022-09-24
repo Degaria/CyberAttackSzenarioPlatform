@@ -1,4 +1,4 @@
-package de.schuetzmarvin.caspnmapmod;
+/*package de.schuetzmarvin.caspnmapmod;
 
 import java.io.*;
 
@@ -48,3 +48,5 @@ public class NmapIPScan implements INmap {
 
 
 }
+
+ */

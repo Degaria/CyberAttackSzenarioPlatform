@@ -1,31 +1,22 @@
-package de.schuetzmarvin.caspprovidermod;
+/*package de.schuetzmarvin.caspprovidermod;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 //import org.jsoup.*;
 //import org.jsoup.nodes.Document;
 //import org.jsoup.parser.Parser;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 
 public class ProviderSkripte implements IProvider {
     @Override
-    public ArrayList<String> getNeededValues() {
+    public List<Needed_Values> getNeededValues() {
         return null;
     }
 
     @Override
-    public ArrayList<String> getProvidedValues() {
+    public List<Provided_Values> getProvidedValues() {
         return null;
     }
 
@@ -35,12 +26,12 @@ public class ProviderSkripte implements IProvider {
     }
 
     @Override
-    public File getFile() {
+    public String getFilePath(File file) {
         return null;
     }
 
     @Override
-    public void saveFile(Object value) {
+    public void saveFile(String value, String filename) throws IOException {
 
     }
 
@@ -179,8 +170,10 @@ public class ProviderSkripte implements IProvider {
 
         return null;
     }
-    */
+
 }
+
+ */
 
 
 

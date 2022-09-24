@@ -2,6 +2,7 @@ package de.schuetzmarvin.caspconvertermod;
 
 import de.schuetzmarvin.caspprovidermod.IProvider;
 import de.schuetzmarvin.caspprovidermod.ProviderHydra;
+import de.schuetzmarvin.caspprovidermod.ProviderStorage;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConverterAdapterHydra implements IConverter{
-    private IProvider provider = new ProviderHydra();
+    private ProviderStorage provider = new ProviderStorage();
     @Override
     public void toXmlfile(String file) throws IOException {
         if(provider.isXml(file) == true){
@@ -26,7 +27,7 @@ public class ConverterAdapterHydra implements IConverter{
         JSONObject obj = new JSONObject(json);
         String xml = XML.toString(obj);
         String well_formed_xml = well_form_xml_with_root_element(xml);
-        provider.saveFile(well_formed_xml, "hydra_output.xml");
+        provider.saveFile(well_formed_xml, "tool_outputs\\hydra_output.xml");
         return;
     }
 

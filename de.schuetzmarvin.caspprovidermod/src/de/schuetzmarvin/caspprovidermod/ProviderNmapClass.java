@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/*
 public class ProviderNmapClass implements IProvider{
 
     @Override
@@ -42,7 +42,7 @@ public class ProviderNmapClass implements IProvider{
         return false;
     }
 
-    /*
+
     public boolean check_if_is_done(String file) throws IOException {
         BufferedReader checker_empty_file = new BufferedReader(new FileReader(file));
         String lastline = "";
@@ -75,5 +75,7 @@ public class ProviderNmapClass implements IProvider{
         return false;
     }
     
-     */
+
 }
+
+     */

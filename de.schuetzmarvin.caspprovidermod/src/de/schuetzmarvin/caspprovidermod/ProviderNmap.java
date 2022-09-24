@@ -2,6 +2,7 @@ package de.schuetzmarvin.caspprovidermod;
 
 import org.apache.commons.io.FilenameUtils;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,15 @@ public class ProviderNmap implements IProvider {
     }
 
     @Override
-    public void saveFile(String value) throws IOException {
-
+    public void saveFile(String value, String filename) throws IOException {
+        File file = new File(filename);
+        if(file.exists() == false) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(getFilePath(file),false);
+        writer.write(value);
+        writer.close();
+        return;
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface IProvider {
     List<Needed_Values> getNeededValues();
     List<Provided_Values> getProvidedValues();
     ArrayList<String> getNeededParameters();
-    String getFilePath(File file);
+    String getFilePath(File file) throws IOException;
     void saveFile(String value, String filename) throws IOException;
     boolean isXml(String path_to_file);
     //boolean check_if_is_done(String file) throws IOException;

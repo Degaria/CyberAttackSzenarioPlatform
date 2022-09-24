@@ -13,21 +13,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-/*
-public class ConverterAdapterScripts implements IConverter {
-    private ProviderStorage provider = new ProviderStorage();
 
+public class ConverterAdapterLookupPLCInformationScript implements IConverter {
+    private ProviderStorage provider = new ProviderStorage();
     @Override
     public void toXmlfile(String file) throws IOException {
         if(provider.isXml(file) == true){
             return;
         }
-        if(file.equals("look_up_plc_information_output.txt")) {
-            txt_to_json(file, provider.getFilePath(new File("look_up_plc_information_output.json")));
-        }
-        if(file.equals("change_plc_settings_output.txt")){
-            txt_to_json(file,provider.getFilePath(new File("change_plc_settings_output.json")));
-        }
+        txt_to_json(file, provider.getFilePath(new File("tool_outputs\\look_up_plc_information_output.json")));
     }
 
     public void txt_to_json(String file_from, String file_to) throws IOException {
@@ -69,12 +63,7 @@ public class ConverterAdapterScripts implements IConverter {
         JSONObject json = new JSONObject(json_string);
         String xml = XML.toString(json);
         String well_formed_xml = well_form_xml_with_root_element(xml);
-        if(jsonFile.equals("look_up_plc_information_output.json")) {
-            provider.saveFile(well_formed_xml,"look_up_plc_information_output.xml");
-        }
-        if(jsonFile.equals("change_plc_settings_output.json")) {
-            provider.saveFile(well_formed_xml,"change_plc_settings_output.xml");
-        }
+        provider.saveFile(well_formed_xml,"tool_outputs\\look_up_plc_information_output.xml");
     }
 
     public String well_form_xml_with_root_element(String xml_string){
@@ -84,5 +73,3 @@ public class ConverterAdapterScripts implements IConverter {
         return xml;
     }
 }
-
- */

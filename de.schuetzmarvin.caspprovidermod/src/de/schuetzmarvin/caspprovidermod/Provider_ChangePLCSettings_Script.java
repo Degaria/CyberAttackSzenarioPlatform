@@ -17,11 +17,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProviderScripts implements IProvider {
-    //IConverter converter = new ConverterAdapterScripts();//TODO muss in die Scripts Klasse im Script Modul
+public class Provider_ChangePLCSettings_Script implements IProvider {
     @Override
     public List<Needed_Values> getNeededValues() {
-        return null;
+        List<Needed_Values> neede_values = List.of(Needed_Values.USERNAME, Needed_Values.PASSWORD,Needed_Values.IP_ADDRESS,Needed_Values.NEWIP_ADDRESS,Needed_Values.PLC_TYP);
+        return neede_values;
     }
 
     @Override
@@ -36,12 +36,16 @@ public class ProviderScripts implements IProvider {
 
     @Override
     public String getFilePath(File file) {
-        return null;
+        return file.getAbsolutePath();
     }
 
     @Override
     public void saveFile(String value, String filename) throws IOException {
-        FileWriter writer = new FileWriter(getFilePath(new File(filename)));
+        File file = new File(filename);
+        if(file.exists() == false) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(getFilePath(file),false);
         writer.write(value);
         writer.close();
         return;
@@ -55,45 +59,6 @@ public class ProviderScripts implements IProvider {
             return true;
         }
         return false;
-    }
-
-
-    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
-        boolean helper_for_double_values = false;
-        ArrayList<String> ip_address_list = new ArrayList<>();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new File(file));
-        document.getDocumentElement().normalize();
-        NodeList addresses_list = document.getElementsByTagName("address");
-        for (int i = 0; i < addresses_list.getLength(); i++) {
-            Node address = addresses_list.item(i);
-
-            if (address.getNodeType() == Node.ELEMENT_NODE) {
-
-                Element addressElement = (Element) address;
-
-                if (addressElement.hasAttribute("vendor")) {
-
-                } else {
-                    String ip_address = addressElement.getAttribute("addr");
-                    if (ip_address_list.size() == 0) {
-                        ip_address_list.add(ip_address);
-                    }
-                    for (String string : ip_address_list) {
-                        if (ip_address.equals(string)) {
-                            helper_for_double_values = true;
-                        }
-                    }
-
-                    if(helper_for_double_values == false){
-                        ip_address_list.add(ip_address);
-                    }
-                }
-            }
-            helper_for_double_values = false;
-        }
-        return ip_address_list;
     }
 
     public ArrayList<String> get_information_for_cps(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
@@ -178,23 +143,4 @@ public class ProviderScripts implements IProvider {
 
         return null;
     }
-    /*@Override
-    public boolean check_if_is_done(String file) throws IOException {
-        return false;
-    }
-
-    @Override
-    public boolean is_xml(String path_to_file) {
-        return false;
-    }
-
-    @Override
-    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
-        return null;
-    }*/
 }

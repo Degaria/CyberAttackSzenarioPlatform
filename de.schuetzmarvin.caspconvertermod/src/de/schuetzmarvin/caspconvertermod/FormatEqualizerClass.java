@@ -1,4 +1,4 @@
-package de.schuetzmarvin.caspconvertermod;
+/*package de.schuetzmarvin.caspconvertermod;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -60,7 +60,7 @@ public class FormatEqualizerClass implements IFormatEqualizer {
         writer2.close();
 
         f.json_to_xml(JSONParser.getJSONFromFile("C:\\Users\\schue\\Desktop\\Eigene Projekte\\CyberAttackSzenarioPlatform\\tool_output\\test.json"));
-        */
+
     }
 
     @Override
@@ -133,3 +133,5 @@ public class FormatEqualizerClass implements IFormatEqualizer {
         System.out.println("FERTIG!");
     }
 }
+
+ */

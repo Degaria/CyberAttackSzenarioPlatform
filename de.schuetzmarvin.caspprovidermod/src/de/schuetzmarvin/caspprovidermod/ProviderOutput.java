@@ -1,20 +1,21 @@
 package de.schuetzmarvin.caspprovidermod;
 
-import org.xml.sax.SAXException;
+import org.apache.commons.io.FilenameUtils;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProviderOutput implements IProvider {
     @Override
-    public ArrayList<String> getNeededValues() {
+    public List<Needed_Values> getNeededValues() {
         return null;
     }
 
     @Override
-    public ArrayList<String> getProvidedValues() {
+    public List<Provided_Values> getProvidedValues() {
         return null;
     }
 
@@ -24,17 +25,29 @@ public class ProviderOutput implements IProvider {
     }
 
     @Override
-    public File getFile() {
-        return null;
+    public String getFilePath(File file) throws IOException {
+        return file.getAbsolutePath();
     }
 
     @Override
-    public void saveFile(Object value) {
-
+    public void saveFile(String value, String filename) throws IOException {
+        File file = new File(filename);
+        if(file.exists() == false) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(getFilePath(file),false);
+        writer.write(value);
+        writer.close();
+        return;
     }
 
     @Override
     public boolean isXml(String path_to_file) {
+        String extension = FilenameUtils.getExtension(path_to_file);
+        String xml_extension = "xml";
+        if(extension.equals(xml_extension)) {
+            return true;
+        }
         return false;
     }
 
