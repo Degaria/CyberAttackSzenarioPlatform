@@ -5,6 +5,7 @@ module de.schuetzmarvin.caspcontrollermod {
     requires java.xml;
     requires de.schuetzmarvin.caspprovidermod;
     requires de.schuetzmarvin.caspvalidatormod;
+    requires de.schuetzmarvin.caspoutputmod;
 
 
 }

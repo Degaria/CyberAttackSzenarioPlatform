@@ -1,5 +1,9 @@
 package de.schuetzmarvin.caspprovidermod;
 
+import org.apache.commons.io.FilenameUtils;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,7 +47,22 @@ public class ProviderStorage implements IProvider{
 
     @Override
     public boolean isXml(String path_to_file) {
+        String extension = FilenameUtils.getExtension(path_to_file);
+        String xml_extension = "xml";
+        if(extension.equals(xml_extension)) {
+            return true;
+        }
         return false;
+    }
+
+    @Override
+    public ArrayList<String> getParametersforExecution() throws ParserConfigurationException, IOException, SAXException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() throws ParserConfigurationException, IOException, SAXException {
+        return null;
     }
 
     /*@Override

@@ -1,7 +1,9 @@
 package de.schuetzmarvin.caspprovidermod;
 
 import org.apache.commons.io.FilenameUtils;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,6 +26,7 @@ public class ProviderOutput implements IProvider {
     public List<ValuesEnum> getProvidedValues() {
         return null;
     }
+
 
 
     @Override
@@ -51,6 +54,16 @@ public class ProviderOutput implements IProvider {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<String> getParametersforExecution() throws ParserConfigurationException, IOException, SAXException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() throws ParserConfigurationException, IOException, SAXException {
+        return null;
     }
 
     /*@Override

@@ -10,10 +10,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
 
     @Override
     public List<ValuesEnum> getNeededValuesManual() {
-        List<ValuesEnum> neede_values = List.of(ValuesEnum.USERNAME, ValuesEnum.PASSWORD,ValuesEnum.IP_ADDRESS,ValuesEnum.NEWIP_ADDRESS,ValuesEnum.PLC_TYP);
+        List<ValuesEnum> neede_values = List.of(ValuesEnum.USERNAME, ValuesEnum.PASSWORD,ValuesEnum.IP_ADDRESS,ValuesEnum.PLC_TYP,ValuesEnum.NEWIP_ADDRESS);
         return neede_values;
     }
 
@@ -61,6 +58,89 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<String> getParametersforExecution() throws ParserConfigurationException, IOException, SAXException {
+        ArrayList<String> all_information = new ArrayList<>();
+        String information_plc="";
+        ArrayList<String> information_user_pw_ip = new ArrayList<>();
+        File dir = new File("parameterFiles\\");
+        if (dir.exists() && dir.isDirectory()) {
+            File[] files = dir.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    if(file.getName().equals("look_up_plc_information_parameter_output.xml")){
+                        information_plc = plc_from_lpi(file);
+                    }
+                    if(file.getName().equals("hydra_parameter_output.xml")){
+                        information_user_pw_ip = information_from_hydra(file);
+                    }
+                }
+            }
+        }
+        all_information.add(information_user_pw_ip.get(0));
+        all_information.add(information_user_pw_ip.get(1));
+        all_information.add(information_user_pw_ip.get(2));
+        all_information.add(information_plc);
+        return all_information;
+    }
+
+    private String plc_from_lpi(File file) throws ParserConfigurationException, IOException, SAXException {
+        String all_information = "";
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(file);
+        document.getDocumentElement().normalize();
+        NodeList info_list = document.getElementsByTagName("Info1"); //TODO: Sollte später für mehre Devices möglich sein.
+        for (int i = 0; i < info_list.getLength(); i++) {
+            Node device_node = info_list.item(i);
+            //System.out.println(plc_type);
+
+            if (device_node.getNodeType() == Node.ELEMENT_NODE) {
+                Element device_Element = (Element) device_node;
+                System.out.println(device_Element);
+                String device_string = getString("PLC_TYPE", device_Element);
+                System.out.println(device_string);
+                if((all_information.contains(device_string)) == false) {
+                    all_information = device_string;
+                }
+            }
+        }
+        return all_information;
+    }
+
+    private ArrayList<String> information_from_hydra(File file) throws ParserConfigurationException, IOException, SAXException {
+        ArrayList<String> all_information = new ArrayList<>();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new FileInputStream(file));
+        document.getDocumentElement().normalize();
+        //System.out.println(document.getDocumentElement().getNodeName());
+        NodeList info_hydra_list = document.getElementsByTagName("results");
+        for (int i = 0; i < info_hydra_list.getLength(); i++) {
+            Node result = info_hydra_list.item(i);
+            //System.out.println(result);
+
+            if (result.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element resultElement = (Element) result;
+                String username = getString("USERNAME", resultElement);
+                String password = getString("PASSWORD", resultElement);
+                String ip = getString("ADDRESS", resultElement);
+                all_information.add(username);
+                all_information.add(password);
+                all_information.add(ip);
+            }
+        }
+
+        return all_information;
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() throws ParserConfigurationException, IOException, SAXException {
+        return null;
     }
 
     public ArrayList<String> get_information_for_cps(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
