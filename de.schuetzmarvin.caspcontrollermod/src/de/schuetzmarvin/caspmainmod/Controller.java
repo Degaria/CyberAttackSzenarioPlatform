@@ -2,11 +2,14 @@ package de.schuetzmarvin.caspmainmod;
 
 
 import de.schuetzmarvin.casphydramod.Hydra;
+import de.schuetzmarvin.casphydramod.IHydra;
+import de.schuetzmarvin.caspnmapmod.INmap;
 import de.schuetzmarvin.caspnmapmod.Nmap;
 import de.schuetzmarvin.caspoutputmod.IOutput;
 import de.schuetzmarvin.caspoutputmod.Output;
 import de.schuetzmarvin.caspprovidermod.ValuesEnum;
 import de.schuetzmarvin.caspscriptsmod.ChangePLCSettingsScriptRunner;
+import de.schuetzmarvin.caspscriptsmod.IScriptrunner;
 import de.schuetzmarvin.caspscriptsmod.LookupPLCInformationScriptRunner;
 import de.schuetzmarvin.caspvalidatormod.IValidatorCASP;
 import de.schuetzmarvin.caspvalidatormod.ValidatorCASP;
@@ -21,26 +24,29 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
+    // Ein Scanner Objekt zur Kommunikation mit dem Nutzer.
     private static Scanner user_Input = new Scanner(System.in);
+    // Ein String in dem die Nutzereingaben die über user_Input aufgenommen werden abgelegt werden können.
     private static String user_data;
+    // Ein boolean der die korrektheit einer Nutzereinageb prüft.
     private static boolean correct_answer = false;
-    static final Object lock2 = new Object();
-    static boolean ready_lock_2;
-    static final Object lock3 = new Object();
-    static boolean ready_lock_3;
-    static final Object lock4 = new Object();
-    static boolean ready_lock_4;
-    static final Object lock5 = new Object();
-    static boolean ready_lock_5;
-    static Nmap nmap = new Nmap();
-    static Hydra hydra = new Hydra();
-    static LookupPLCInformationScriptRunner lupisr = new LookupPLCInformationScriptRunner();
-    static ChangePLCSettingsScriptRunner cpssr = new ChangePLCSettingsScriptRunner();
+    // Ein Objekt der Klasse Nmap.
+    static INmap nmap = new Nmap();
+    // Ein Objekt der Klasse Hydra.
+    static IHydra hydra = new Hydra();
+    // Ein Objekt der Klasse LookupPLCInformationScriptRunner
+    static IScriptrunner lupisr = new LookupPLCInformationScriptRunner();
+    // Ein Objekt der Klasse ChangePLCSettingsScriptRunner
+    static IScriptrunner cpssr = new ChangePLCSettingsScriptRunner();
+    // Ein objekt der Klasse Validator
     static IValidatorCASP validator = new ValidatorCASP();
+    // Ein boolean zur Überprüfung ob eine neue Tool Chain erstellt werden muss, oder ob die Tool Chain valide ist
     static boolean validation_looper = false;
+    // Ein Objekt der Output Klasse
     static IOutput output = new Output();
 
 
+    // Main Methode des Programms, die dieses startet.
     public static void main(String[] args) throws IOException, InterruptedException, TransformerException, ParserConfigurationException, SAXException {
         Controller controller = new Controller();
         List<String> allPossibleToolsAndScripts = controller.getAllToolsandScripts();
@@ -67,11 +73,11 @@ public class Controller {
 
             } else {
                 System.out.println("Leider war die eingegebene Tool Chain nicht valide. Bitte fangen Sie nochmal von vorn an.");
-                //controller.cyberattackszenario(tool_chain);
             }
         }
     }
 
+    // Methode, die die Tool Chain als Parameter entgegennimmt und anschließend die start(Tool-Methode für jedes einzelne Tool der Chain aufruft.
     private boolean buildAndStartCyberAttackSzenario(List<List<String>> tool_chain) throws IOException, InterruptedException, ParserConfigurationException, TransformerException, SAXException {
         for (int i = 0; i < tool_chain.size(); i++) {
              startTool(tool_chain.get(i));
@@ -79,6 +85,8 @@ public class Controller {
         return true;
     }
 
+    // Methode, welche eine Liste bestehend aus einem String für das Tool und einem String für die Parameter entgegennimmt und auf Grundlage dessen die entsprechende run-Methode
+    // des Tools ausführt.
     private void startTool(List<String> tool_information) throws IOException, InterruptedException, TransformerException, SAXException, ParserConfigurationException {
         String tool_name = tool_information.get(0);
         String tool_parameters = tool_information.get(1);
@@ -114,280 +122,9 @@ public class Controller {
                 break;
         }
     }
-/*
-    private Thread buildThreadForTool(List<String> tool_information) {
-        String tool_name = tool_information.get(0);
-        String tool_parameters = tool_information.get(1);
-
-        switch (tool_name) {
-            case "nmap":
-                if (tool_parameters == null) {
-                    return new Thread(() -> {
-                        try {
-                            nmap.run();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }else{
-                    return new Thread(() -> {
-                        try {
-                            nmap.run(tool_parameters);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                break;
-            case "hydra":
-                if (tool_parameters == null) {
-                    return new Thread(() -> {
-                        try {
-                            hydra.run();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }else{
-                    return new Thread(() -> {
-                        try {
-                            hydra.run(tool_parameters);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                break;
-            case "lpi":
-                if (tool_parameters == null) {
-                    return new Thread(() -> {
-                        try {
-                            lupisr.run();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }else{
-                    return new Thread(() -> {
-                        try {
-                            lupisr.run(tool_parameters);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                break;
-            case "cps":
-                if (tool_parameters == null) {
-                    return new Thread(() -> {
-                        try {
-                            cpssr.run();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }else{
-                    return new Thread(() -> {
-                        try {
-                            cpssr.run(tool_parameters);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                break;
-        }
-    }
-
-    private void cyberattackszenario(List<List<String>> tool_chain) {
-        int size = tool_chain.size();
-
-        switch (size){
-            case 4:
-                if(tool_chain.get(0).get(0).equals("nmap") && tool_chain.get(1).get(0).equals("lpi") && tool_chain.get(2).get(0).equals("hydra") && tool_chain.get(3).get(0).equals("cps")) {
-                    startCyberAttackSzenario1(nmap,tool_chain.get(0).get(1),lupisr,hydra,cpssr);
-                }
-                break;
-            case 2:
-                if(tool_chain.get(0).get(0).equals("hydra") && tool_chain.get(1).get(0).equals("cps")){
-                    startCyberAttackSzenario2(tool_chain.get(0).get(1), tool_chain.get(1).get(1));
-                }
-                if(tool_chain.get(0).get(0).equals("lpi") && tool_chain.get(1).get(0).equals("hydra")){
-                    startCyberAttackSzenario3(tool_chain.get(0).get(1), tool_chain.get(1).get(1));
-                }
-                break;
-        }
-
-        }
-
-    private void startCyberAttackSzenario1(Nmap nmap, String value, LookupPLCInformationScriptRunner lupisr, Hydra hydra, ChangePLCSettingsScriptRunner cpssr) {
-        Thread thread1 = new Thread(() -> {
-            try {
-                nmap.run(value);
-                synchronized (lock2) {
-                    ready_lock_2 = true;
-                    lock2.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        Thread thread2 = new Thread(() -> {
-            try {
-                while (!ready_lock_2) {
-                    Thread.sleep(1000);
-                }
-                //lupisr.run("lookup_plc_information.py","192.168.1.1 192.168.1.2 192.168.1.3 192.168.1.4");
-                lupisr.run();
-                synchronized (lock3) {
-                    ready_lock_3 = true;
-                    lock3.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread thread3 = new Thread(() -> {
-            try {
-                while (!ready_lock_3) {
-                    Thread.sleep(1000);
-                }
-                hydra.run();
-                synchronized (lock4) {
-                    ready_lock_4 = true;
-                    lock4.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread thread4 = new Thread(() -> {
-            try {
-                while (!ready_lock_4) {
-                    Thread.sleep(1000);
-                }
-                cpssr.run();
-                synchronized (lock5) {
-                    ready_lock_5 = true;
-                    lock5.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread thread5 = new Thread(() -> {
-            try {
-                while(!ready_lock_5){
-                    Thread.sleep(1000);
-                }
-                cpssr.run("change_plc_settings.py", "192.168.1.2");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            }
-        });
-
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-        thread5.start();
-    }
-
-    private void startCyberAttackSzenario3(String s, String s1) {
-    }
-
-    private void startCyberAttackSzenario2(String s, String s1) {
-    }
-
-    private void startCyberAttackSzenario1(String value) {
-
-    }
-
-    /*
-    private void buildThreadsandStart(List<List<String>> tool_chain) {
-        Thread [] tool_chain_threads = new Thread[tool_chain.size()-1];
-        for (int i=0; i < tool_chain.size();i++) {
-           tool_chain_threads[i] = buildThread(tool_chain.get(i), i);
-        }
 
 
-    }
-
-    private Thread buildThread(List<String> tool_information, int i) {
-        String tool_name = tool_information.get(0);
-        String tool_parameters = tool_information.get(1);
-
-        switch (tool_name){
-            case "nmap":
-                if(tool_parameters == null){
-                    return  new Thread(() -> {
-                        try {
-                            nmap.run();
-                            synchronized (lock2) {
-                                ready_lock_2 = true;
-                                lock2.notify();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                break;
-            case "hydra":
-                break;
-            case "lpi":
-                break;
-            case "cps":
-                break;
-        }
-        return null;
-    }
-
-    */
-
+    // Methode, die dem Nutzer begrüßt und ihm seine Möglichkeiten bis hin zur Erstellung der Tool Chain aufzeigt.
     private static List<List<String>> startProgramAndBuilToolChain(Controller controller, List<String> allPossibleToolsAndScripts) {
         List<List<String>> tool_chain;
         System.out.println("Cyber Attack Szenario Platform (CASP) \n \n Herzlich Willkommen! \n\n Mit s + ENTER gelangen Sie zum Tool Chain Abteil. \n Mit e + ENTER beenden Sie CASP. \n \n Bitte entscheiden Sie sich für eine Eingabe (s oder e) und bestätigen Sie diese mit ENTER: ");
@@ -414,6 +151,7 @@ public class Controller {
         return tool_chain;
     }
 
+    // Methode, die alle verfügbaren Tools und Skripte an der Kommandozeile für den nutzer auflistet.
     private static void showAllToolsAndScripts(List<String> allPossibleToolsAndScripts) {
         int i =0;
         for (String string: allPossibleToolsAndScripts) {
@@ -422,6 +160,7 @@ public class Controller {
         }
     }
 
+    // Methode, die dem Nutzer ermöglicht die Tool Chain zusammenzustelllen.
     private List<List<String>> buildToolChain() {
         List<List<String>> tool_chain_builder = new ArrayList<>();
         boolean add_checker = true;
@@ -447,6 +186,8 @@ public class Controller {
         return tool_chain_builder;
     }
 
+    // Methode, in welcher der Nutzer entscheiden kann welches Tool er wählt und ob er diesem Parameter übergeben möchte oder nicht. Für das erste
+    // Tool ist es hierbei Pflicht Parameter zu übergeben.
     private List<String> choseAndConfigureTool(String user_data, int length_tool_chain) {
         List<String> tool_and_configuration = new ArrayList<>();
 
@@ -458,10 +199,10 @@ public class Controller {
                         System.out.println("Dies ist das erste Tool. Sie müssen eine Eingabe über Parameter vornehmen");
                         askforconfiguration();
                     }
-                    tool_and_configuration.add(configureNmap(nmap));
+                    tool_and_configuration.add(configureNmap((Nmap) nmap));
                 }else{
                     if(nmap.checkIFconfiguration() == true && askforconfiguration() == true) {
-                        tool_and_configuration.add(configureNmap(nmap));
+                        tool_and_configuration.add(configureNmap((Nmap) nmap));
                     }else{
                         tool_and_configuration.add(null);
                     }
@@ -474,10 +215,10 @@ public class Controller {
                         System.out.println("Dies ist das erste Tool. Sie müssen eine Eingabe über Parameter vornehmen");
                         askforconfiguration();
                     }
-                    tool_and_configuration.add(configureHydra(hydra));
+                    tool_and_configuration.add(configureHydra((Hydra) hydra));
                 }else{
                     if(hydra.checkIFconfiguration() == true && askforconfiguration() == true) {
-                        tool_and_configuration.add(configureHydra(hydra));
+                        tool_and_configuration.add(configureHydra((Hydra) hydra));
                     }else{
                         tool_and_configuration.add(null);
                     }
@@ -490,10 +231,10 @@ public class Controller {
                         System.out.println("Dies ist das erste Tool. Sie müssen eine Eingabe über Parameter vornehmen");
                         askforconfiguration();
                     }
-                    tool_and_configuration.add(configureCPS(cpssr));
+                    tool_and_configuration.add(configureCPS((ChangePLCSettingsScriptRunner) cpssr));
                 }else{
                     if(cpssr.checkIFconfiguration() == true && askforconfiguration() == true) {
-                        tool_and_configuration.add(configureCPS(cpssr));
+                        tool_and_configuration.add(configureCPS((ChangePLCSettingsScriptRunner) cpssr));
                     }else{
                         tool_and_configuration.add(null);
                     }
@@ -506,10 +247,10 @@ public class Controller {
                         System.out.println("Dies ist das erste Tool. Sie müssen eine Eingabe über Parameter vornehmen");
                         askforconfiguration();
                     }
-                    tool_and_configuration.add(configureLPI(lupisr));
+                    tool_and_configuration.add(configureLPI((LookupPLCInformationScriptRunner) lupisr));
                 }else{
                     if(lupisr.checkIFconfiguration() == true && askforconfiguration() == true) {
-                        tool_and_configuration.add(configureLPI(lupisr));
+                        tool_and_configuration.add(configureLPI((LookupPLCInformationScriptRunner) lupisr));
                     }else{
                         tool_and_configuration.add(null);
                     }
@@ -520,6 +261,7 @@ public class Controller {
 
     }
 
+    //Methode, die sich darüber erkundigt, ob der Nutzer Parameter manuell übergeben möchte oder nicht.
     private boolean askforconfiguration() {
         System.out.println("Wählen Sie eine der beiden Möglichkeiten. (Wenn dieses Tool das erste der Tool Chain ist, dann müssen sie die Parametervariante wählen)\n\n 1.Tool mit Parametern versehen\n2.Tool ohne Parametereingabe nutzen");
         if(user_Input.nextLine().equals("1")){
@@ -528,6 +270,7 @@ public class Controller {
         return false;
     }
 
+    // Methode, die dem Nutzer jeden benötigten Parameter für das lookup_plc_information.py Skript aufzeigt und eine eingabe von diesem erwartet.
     private String configureLPI(LookupPLCInformationScriptRunner lupisr) {
         String parameters="";
 
@@ -539,6 +282,7 @@ public class Controller {
         return parameters;
     }
 
+    // Methode, die dem Nutzer jeden benötigten Parameter für das change_plc_settings.py Skript aufzeigt und eine eingabe von diesem erwartet.
     private String configureCPS(ChangePLCSettingsScriptRunner cpssr) {
         String parameters="";
 
@@ -550,6 +294,7 @@ public class Controller {
         return parameters;
     }
 
+    // Methode, die dem Nutzer jeden benötigten Parameter für das Tool Hydra aufzeigt und eine eingabe von diesem erwartet.
     private String configureHydra(Hydra hydra) {
         String parameters="";
 
@@ -561,6 +306,7 @@ public class Controller {
         return parameters;
     }
 
+    // Methode, die dem Nutzer jeden benötigten Parameter für das Tool Nmap aufzeigt und eine eingabe von diesem erwartet.
     private String configureNmap(Nmap nmap) {
         String parameters="";
 
@@ -572,6 +318,7 @@ public class Controller {
         return parameters;
     }
 
+    // Methode, die feststellt, ob der Nutzer mit der Erstellung der Tool Chain beginnen, oder das Programm beenden möchte.
     private void evaluation_first_answer(String user_answer, List<String> listAllTandS) {
 
         switch (user_answer) {
@@ -589,8 +336,9 @@ public class Controller {
 
     }
 
+    // Methode, die alle Namen der Dateien in CASPStoragescripts/ aufführt und die daraus entstehende Liste zurückgibt.
     protected List<String> getScripts() {
-        File directory = new File("scripts\\");
+        File directory = new File("CASPStorage\\scripts\\");
         File[] listOfFiles = directory.listFiles();
         List<String> mainList = new ArrayList<>();
 
@@ -602,6 +350,7 @@ public class Controller {
         return mainList;
     }
 
+    // Methode, in welcher alle Tools, die zur Verfügung stehen gesammelt und zurückgegeben werden.
     protected List<String> getAllToolsandScripts(){
         List<String> scriptFileNames = getScripts();
         List<String> tools = List.of(nmap.TOOL_NAME,hydra.TOOL_NAME);
@@ -616,113 +365,5 @@ public class Controller {
 
         return alltoolsandscripts;
     }
-
-
-       /*
-
-        Thread thread1 = new Thread(() -> {
-            try {
-                nmap.run("192.168.1.1-5");
-                synchronized (lock2) {
-                    ready_lock_2 = true;
-                    lock2.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        Thread thread2 = new Thread(() -> {
-            try {
-                while (!ready_lock_2) {
-                    Thread.sleep(1000);
-                }
-                //lupisr.run("lookup_plc_information.py","192.168.1.1 192.168.1.2 192.168.1.3 192.168.1.4");
-                lupisr.run("lookup_plc_information.py", null);
-                synchronized (lock3) {
-                    ready_lock_3 = true;
-                    lock3.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread thread3 = new Thread(() -> {
-            try {
-                while (!ready_lock_3) {
-                    Thread.sleep(1000);
-                }
-                hydra.run("192.168.1.2", "bla", "21", "admin");
-                synchronized (lock4) {
-                    ready_lock_4 = true;
-                    lock4.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread thread4 = new Thread(() -> {
-            try {
-                while (!ready_lock_4) {
-                    Thread.sleep(1000);
-                }
-                cpssr.run("change_plc_settings.py", "192.168.1.30");
-                synchronized (lock5) {
-                    ready_lock_5 = true;
-                    lock5.notify();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            }
-        });
-
-        Thread thread5 = new Thread(() -> {
-            try {
-                while(!ready_lock_5){
-                    Thread.sleep(1000);
-                }
-                cpssr.run("change_plc_settings.py", "192.168.1.2");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            }
-        });
-
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-        thread5.start();
-
-
-        */
-
-        //nmap.run("192.168.1.1-5");
-        //lupisr.run("lookup_plc_information.py",null);
-        //lupisr.run("lookup_plc_information.py","192.168.1.1 192.168.1.2 192.168.1.3 192.168.1.4");
-        //hydra.run("192.168.1.2", "bla","21", "admin");
-        //cpssr.run("change_plc_settings.py","192.168.1.30");
 
     }

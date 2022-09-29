@@ -13,21 +13,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+    // Hydra Klasse mit run-Methoden zur Durchführung eines Wörterbuchangriffs mit übergebenen Parametern durch den Nutzer oder mittels Informationen vorheriger Tools.
 public class Hydra implements IHydra{
-    public final String TOOL_NAME;
+    // Initialisierung eines Provider Objekts über das IProvider Interface
     IProvider provider;
+
+    // Initialisierung eines Converter Objekts über das IConverter Interface
     IConverter converter;
 
+    // Konstruktor für die Erstellung einer Hydra Instanz + Deklaration von Provider und Converter
     public Hydra(){
-        this.TOOL_NAME = "Hydra";
         this.provider = new ProviderHydra();
         this.converter  = new ConverterAdapterHydra();
     }
 
 
+
+
+    /*
+        Die run-Methode, welche genutzt wird, wenn Hydra verwendet wird, ohne das der Nutzer Parameter übergeben hat. In dieser wird die Output-Datei erstellt,
+        sofern diese noch nicht vorhanden ist, der Befehl für Hydra auf Grundlage von informationen vorheriger Tools zusamengebaut und die Ausführung des Tools Hydra
+        mit dem entsprechenden Befehl über die Kommandozeile ausgeführt. Abschließend wird das toXmlfile-Methode des Converters die Output-Datei zur Übersetzung in XMl übergeben.
+     */
     public boolean run() throws IOException, InterruptedException, TransformerException, SAXException, ParserConfigurationException {
-        if(!new File("tool_outputs\\hydra_output.json").exists()){
-            new File("tool_outputs\\hydra_output.json").createNewFile(); //TODO: Machs schöner!!!
+        if(!new File("CASPStorage\\tool_outputs\\hydra_output.json").exists()){
+            new File("CASPStorage\\tool_outputs\\hydra_output.json").createNewFile();
         }
         Thread.sleep(10000);
         String port="";
@@ -45,17 +55,24 @@ public class Hydra implements IHydra{
                 port = value;
             }
         }
-        String hydra_command = "hydra -o " + this.provider.getFilePath(new File("tool_outputs\\hydra_output.json")) + " -b json -s " + port + " -l admin -P " + this.provider.getFilePath(new File("documents\\dictionary.txt")) + " " + ip_address + " ftp";
+        String hydra_command = "hydra -o " + this.provider.getFilePath(new File("CASPStorage\\tool_outputs\\hydra_output.json")) + " -b json -s " + port + " -l admin -P " + this.provider.getFilePath(new File("CASPStorage\\documents\\dictionary.txt")) + " " + ip_address + " ftp";
         String command_exec_cmd =  "cmd.exe /c cd  C:\\Program Files (x86)\\thc-hydra-windows-master\\ & start cmd.exe /k " + hydra_command;
         Runtime.getRuntime().exec(command_exec_cmd);
         Thread.sleep(20000);
-        this.converter.toXmlfile(this.provider.getFilePath(new File("tool_outputs\\hydra_output.json")));
+        this.converter.toXmlfile(this.provider.getFilePath(new File("CASPStorage\\tool_outputs\\hydra_output.json")));
         return true;
     }
 
+
+
+        /*
+           Die run-Methode, welche genutzt wird, wenn Hydra verwendet wird und der Nutzer Parameter übergeben hat. In dieser wird die Output-Datei erstellt,
+           sofern diese noch nicht vorhanden ist, der Befehl für Hydra auf Grundlage von informationen vorheriger Tools zusamengebaut und die Ausführung des Tools Hydra
+           mit dem entsprechenden Befehl über die Kommandozeile ausgeführt. Abschließend wird das toXmlfile-Methode des Converters die Output-Datei zur Übersetzung in XMl übergeben.
+        */
     public boolean run(String tool_parameters) throws InterruptedException, IOException, TransformerException, SAXException, ParserConfigurationException {
-        if(!new File("tool_outputs\\hydra_output.json").exists()){
-            new File("tool_outputs\\hydra_output.json").createNewFile(); //TODO: Machs schöner!!!
+        if(!new File("CASPStorage\\tool_outputs\\hydra_output.json").exists()){
+            new File("CASPStorage\\tool_outputs\\hydra_output.json").createNewFile();
         }
         Thread.sleep(10000);
         String port="";
@@ -77,28 +94,32 @@ public class Hydra implements IHydra{
                 ip_address = value;
             }
         }
-        String hydra_command = "hydra -o " + this.provider.getFilePath(new File("tool_outputs\\hydra_output.json")) + " -b json -s " + port + " -l " + username + " -P " + this.provider.getFilePath(new File("documents\\"+dictionary)) + " " + ip_address + " ftp";
+        String hydra_command = "hydra -o " + this.provider.getFilePath(new File("CASPStorage\\tool_outputs\\hydra_output.json")) + " -b json -s " + port + " -l " + username + " -P " + this.provider.getFilePath(new File("documents\\"+dictionary)) + " " + ip_address + " ftp";
         String command_exec_cmd =  "cmd.exe /c cd  C:\\Program Files (x86)\\thc-hydra-windows-master\\ & start cmd.exe /k " + hydra_command;
         Runtime.getRuntime().exec(command_exec_cmd);
         Thread.sleep(20000);
-        this.converter.toXmlfile(this.provider.getFilePath(new File("tool_outputs\\hydra_output.json")));
+        this.converter.toXmlfile(this.provider.getFilePath(new File("CASPStorage\\tool_outputs\\hydra_output.json")));
         return true;
     }
 
+
+
+    // gibt den Provider des Hydra-Objekts zurück
     public IProvider getProvider(){
         return this.provider;
     }
 
+
+    /*
+        Die Methode gibt true oder false zurück.
+        true --> Tool kann konfiguriert werden, weil es Parameter entgegennimmt
+        false --> Tool kann nicht konfiguriert werden, weil es keine Parameter entgegennimmt
+     */
     public boolean checkIFconfiguration() {
         if(this.getProvider().getNeededValuesManual().isEmpty()){
             return false;
         }
 
         return true;
-    }
-
-    @Override
-    public boolean run(String ip_address, String dictionary, String port, String username) throws IOException, InterruptedException, TransformerException, SAXException, ParserConfigurationException {
-        return false;
     }
 }

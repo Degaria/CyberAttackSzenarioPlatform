@@ -1,5 +1,6 @@
 package de.schuetzmarvin.caspconvertermod;
 
+import de.schuetzmarvin.caspprovidermod.IProvider;
 import de.schuetzmarvin.caspprovidermod.ProviderStorage;
 import org.json.JSONObject;
 import org.json.XML;
@@ -18,33 +19,47 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+    /*
+        Diese Klasse ist dafür verantwortlich den Output des change_plc_settings.py Skripts in ein XML Format zu überführen.
+        Außerdem ist Sie dafür zuständig unter Verwendung der XSL (change_plc_settings_template.xsl) und der Output-XML (change_plc_settings_output.xml) die XML-Datei
+        (change_plc_settings_parameter_output.xml) zu erstellen, die den folgenden Tools als Informationsquelle dient.
+     */
+public class ConverterAdapterChangePLCSettingsScriptRunner implements IConverter {
 
-public class ConverterAdapterChangePLCSettingsScript implements IConverter {
-    public static void main(String[] args) throws IOException, TransformerException {
-        ProviderStorage provider2 = new ProviderStorage();
-        ConverterAdapterChangePLCSettingsScript converter = new ConverterAdapterChangePLCSettingsScript();
-        File file = new File("tool_outputs\\change_plc_settings_output.txt");
-        String file_string = provider2.getFilePath(file);
-        converter.toXmlfile(file_string);
-    }
-    private ProviderStorage provider = new ProviderStorage();
+    //Provider der den XML-Format String und den Pfad zur XML-Datei entgegennimmt, um den String in diese zu schreiben.
+    private IProvider provider = new ProviderStorage();
+
+
+
+    /*
+        Methode zur Umformung der Output-Datei in das XML-Format.
+        Die Methode nimmt den Pfad Der Output-Datei des Skripts entgegen und prüft, ob diese bereits im XML-Format vorliegt. Falls dies der Fall ist führt sie lediglich die Methode changeTagName
+        aus, andernfalls leitet Sie die Übersetzung ein.
+     */
     @Override
     public void toXmlfile(String file) throws IOException, TransformerException {
         if(provider.isXml(file) == true){
             changeTagName(new File(file));
             return;
         }
-
-        txt_to_json(file,provider.getFilePath(new File("tool_outputs\\change_plc_settings_output.json")));
-        //txt_to_json(file,provider.getFilePath(new File("tool_outputs\\Test.json")));
+        txt_to_json(file,provider.getFilePath(new File("CASPStorage\\tool_outputs\\change_plc_settings_output.json")));
     }
 
+
+
+
+    /*
+        Die Methode ist dafür verantwortlich die überarbeiteten XML-Output-Dateien zu ertstellen, die den Tools als Informationsquelle dienen. Ihr wird die XML-Output-Datei
+        übergeben. Mit dieser und der zum Tool gehörigen XSL-Datei (change_plc_settings_template.xsl) erstellt es eine neue Datei (change_plc_settings_parameter_output.xml),
+        in welche der transformierte XML-Stream übertragen wird. (Momentan ist diese Methode nicht notwendig, da change_plc_settings.py in der aktuellen Form keine nützlichen
+        Informationen für andere Tools liefert).
+     */
     @Override
     public void changeTagName(File file) throws IOException, TransformerException {
-        File XSLFILE = new File("xslTemplates\\change_plc_settings_template.xsl");
+        File XSLFILE = new File("CASPStorage\\xslTemplates\\change_plc_settings_template.xsl");
         File XMLFILE = file;
-        File OUTPUT = new File("parameterFiles\\change_plc_settings_parameter_output.xml");
-        if(OUTPUT.exists() == false) {
+        File OUTPUT = new File("CASPStorage\\parameterFiles\\change_plc_settings_parameter_output.xml");
+        if(!OUTPUT.exists()) {
             OUTPUT.createNewFile();
         }
 
@@ -59,6 +74,13 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
         transformer.transform(inputfile,outputfile);
     }
 
+
+
+
+    /*
+        Die Methode ist dafür verantwortlich die TXT-output-Datei des Tools in ein Json-Format zu überführen und dieses in einer Json-Datei abzulegen (change_plc_settings_output.json)
+        Abschließend übergibt sie die den Pfad zu Json-Datei an die Methode json_to_xml(String file).
+     */
     public void txt_to_json(String file_from, String file_to) throws IOException, TransformerException {
         String line;
         int i = 1;
@@ -69,12 +91,11 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
                 String[] words = line.split(" ");
                 if(device.isEmpty()) {
                     device.put(words[0], words[1]);
-                    //main_obj.put("INFORMATION", true);
                 }else{
                     if(device.has(words[0])){
                         main_obj.append("Info" + i, device);
                         device = new JSONObject();
-                        device.put(words[0], words[1]); // hat 2 1/2 Stunden gedauert
+                        device.put(words[0], words[1]);
                         i++;
                     }else{
                         device.put(words[0], words[1]);
@@ -82,7 +103,6 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
                 }
             }
             main_obj.append("Info" + i, device);
-            System.out.println("Object: " + main_obj);
             FileWriter file_writer = new FileWriter(file_to);
             file_writer.write(main_obj.toString());
             file_writer.close();
@@ -94,15 +114,29 @@ public class ConverterAdapterChangePLCSettingsScript implements IConverter {
         json_to_xml(file_to);
     }
 
-    public void json_to_xml(String jsonFile) throws IOException, TransformerException {
+
+
+
+
+    /*
+        Diese Methode nimmt den Pfad einer Json-Datei entgegen und überführt den Inhalt dieser in ein XML-Format, welches anschließend zusammen mit dem Verzeichnispfad zur
+        entsprechenden XML-Datei (change_plc_settings_output.xml) and das Provider-Objekt übergeben wird.
+     */
+    public void json_to_xml(String jsonFile) throws IOException {
         String json_string = new String(Files.readAllBytes(Paths.get(jsonFile)));
         JSONObject json = new JSONObject(json_string);
         String xml = XML.toString(json);
         String well_formed_xml = well_form_xml_with_root_element(xml);
-        provider.saveFile(well_formed_xml,"tool_outputs\\change_plc_settings_output.xml");
-        //changeTagName(new File("tool_outputs\\change_plc_settings_output.xml"));
+        provider.saveFile(well_formed_xml,"CASPStorage\\tool_outputs\\change_plc_settings_output.xml");
     }
 
+
+
+
+
+    /*
+        Diese Methode nimmt einen String im XML-Format entgegen und sorgt dafür diesen in ein well-formed-xml-Format zu bringen.
+     */
     public String well_form_xml_with_root_element(String xml_string){
         List<InputStream> stream = Arrays.asList(new ByteArrayInputStream("<root>".getBytes()), new ByteArrayInputStream(xml_string.getBytes(StandardCharsets.UTF_8)), new ByteArrayInputStream("</root>".getBytes()));
         InputStream container = new SequenceInputStream(Collections.enumeration(stream));

@@ -1,7 +1,8 @@
 package de.schuetzmarvin.caspscriptsmod;
 
-import de.schuetzmarvin.caspconvertermod.ConverterAdapterLookupPLCInformationScript;
+import de.schuetzmarvin.caspconvertermod.ConverterAdapterLookupPLCInformationScriptRunner;
 import de.schuetzmarvin.caspconvertermod.IConverter;
+import de.schuetzmarvin.caspprovidermod.IProvider;
 import de.schuetzmarvin.caspprovidermod.Provider_LookupPLCInformation_Script;
 import org.xml.sax.SAXException;
 
@@ -11,34 +12,47 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+    // Klasse zur Ausführung des change_plc_settings.py Skripts
 public class LookupPLCInformationScriptRunner implements IScriptrunner<String> {
-    Provider_LookupPLCInformation_Script provider;
+
+    // Initialisierung eines Provider-Objekts
+    IProvider provider;
+
+    // Initialisierung eines Converter-Objekts
     IConverter converter;
 
+    // Konstruktor der Klasse + deklaration des Provider- und Converter-Objekts
     public LookupPLCInformationScriptRunner(){
         this.provider = new Provider_LookupPLCInformation_Script();
-        this.converter = new ConverterAdapterLookupPLCInformationScript();
+        this.converter = new ConverterAdapterLookupPLCInformationScriptRunner();
     }
 
+        /*
+           run-Methode mit Parameter, die bei der Ausführung des Skripts mit Parameterübergabe durch den Nutzer verwendet wird und sich die benötigten Informationen
+           aus dessen Eingabe bezieht. Die Parameter werden bei der Ausführung des Skripts über die Kommandozeile an dieses übergeben.
+           Die output-Datei wird anschließend dem Converter zur Übersetzung übergeben.
+        */
     @Override
     public boolean run(String ip) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
-        if(!new File("tool_outputs\\look_up_plc_information_output.txt").exists()){
-            new File("tool_outputs\\look_up_plc_information_output.txt").createNewFile(); //TODO: Machs schöner!!!
+        if(!new File("CASPStorage\\tool_outputs\\look_up_plc_information_output.txt").exists()){
+            new File("CASPStorage\\tool_outputs\\look_up_plc_information_output.txt").createNewFile();
         }
-        Thread.sleep(60000);
+        Thread.sleep(10000);
         String command_python= "python lookup_plc_information.py " + ip;
-        System.out.println(command_python);
-        String command_exec_cmd =  "cmd.exe /c cd  C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\scripts & start cmd.exe /k " + command_python;
+        String command_exec_cmd =  "cmd.exe /c cd  C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\CASPStorage\\scripts\\ & start cmd.exe /k " + command_python;
         Runtime.getRuntime().exec(command_exec_cmd);
-        Thread.sleep(30000); //Für den Converter
-        this.converter.toXmlfile(this.provider.getFilePath(new File("tool_outputs\\look_up_plc_information_output.txt")));
+        Thread.sleep(20000);
+        this.converter.toXmlfile(this.provider.getFilePath(new File("CASPStorage\\tool_outputs\\look_up_plc_information_output.txt")));
         return true;
     }
 
-    public Provider_LookupPLCInformation_Script getProvider(){
+    // gibt den Provider zurück
+    public IProvider getProvider(){
         return this.provider;
     }
 
+    // überprüft, ob das Skript manuell konfiguriert werden kann, indem es sich nach den benötigten Werten erkundigt.
     public boolean checkIFconfiguration() {
         if(this.getProvider().getNeededValuesManual().isEmpty()){
             return false;
@@ -47,22 +61,23 @@ public class LookupPLCInformationScriptRunner implements IScriptrunner<String> {
         return true;
     }
 
+        /*
+           run-Methode ohne Parameter, die bei der Ausführung des Skripts ohne Parameterübergabe durch den Nutzer verwendet wird und sich die benötigten Informationen
+           aus den Output_Dateien vorheriger Tools besorgt. Die Parameter, die dem Skript übergeben werden sollen, werden aus den ermittelten Informationen bezogen
+           und bei der Ausführung des Skripts über die Kommandozeile an dieses übergeben. Die Output-Datei wird anschließend dem Converter zur Übersetzung übergeben.
+        */
     public boolean run() throws InterruptedException, SAXException, TransformerException, ParserConfigurationException, IOException {
-        if(!new File("tool_outputs\\look_up_plc_information_output.txt").exists()){
-            new File("tool_outputs\\look_up_plc_information_output.txt").createNewFile(); //TODO: Machs schöner!!!
+        if(!new File("CASPStorage\\tool_outputs\\look_up_plc_information_output.txt").exists()){
+            new File("CASPStorage\\tool_outputs\\look_up_plc_information_output.txt").createNewFile();
         }
         Thread.sleep(60000);
-        //ArrayList<String> ip_adress_list = this.provider.get_ip_address(this.provider.getFilePath(new File("tool_outputs\\nmap_output.xml")));
         ArrayList<String> ip_adress_list = this.provider.getParametersforExecution();
         String arrayListString = String.join(" ",ip_adress_list);
-        System.out.println(arrayListString);
         String command_python= "python lookup_plc_information.py " + arrayListString;
-        System.out.println(command_python);
-        //String command_python= "python " + script + " " + ip;
-        String command_exec_cmd =  "cmd.exe /c cd  C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\scripts & start cmd.exe /k " + command_python;
+        String command_exec_cmd =  "cmd.exe /c cd  C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\CASPStorage\\scripts\\ & start cmd.exe /k " + command_python;
         Runtime.getRuntime().exec(command_exec_cmd);
         Thread.sleep(30000); //Für den Converter
-        this.converter.toXmlfile(this.provider.getFilePath(new File("tool_outputs\\look_up_plc_information_output.txt")));
+        this.converter.toXmlfile(this.provider.getFilePath(new File("CASPStorage\\tool_outputs\\look_up_plc_information_output.txt")));
         return true;
     }
 }

@@ -8,4 +8,7 @@ import java.io.IOException;
 
 public interface IScriptrunner<String> {
     boolean run(String ip) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException;
+    boolean run() throws InterruptedException, IOException, SAXException, ParserConfigurationException, TransformerException;
+
+    boolean checkIFconfiguration();
 }

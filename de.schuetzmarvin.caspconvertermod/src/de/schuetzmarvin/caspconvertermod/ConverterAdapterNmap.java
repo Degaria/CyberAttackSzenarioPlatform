@@ -1,5 +1,6 @@
 package de.schuetzmarvin.caspconvertermod;
 
+import de.schuetzmarvin.caspprovidermod.IProvider;
 import de.schuetzmarvin.caspprovidermod.ProviderStorage;
 
 import javax.xml.transform.Transformer;
@@ -10,34 +11,37 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.IOException;
 
-
+    /*
+        Diese Klasse ist dafür verantwortlich den Output des Hydra Tools in ein XML Format zu überführen.
+        Außerdem ist Sie dafür zuständig unter Verwendung der XSL (nmap_output_template.xsl) und der Output-XML (nmap_output.xml) die XML-Datei (nmap_parameter_output.xml)
+        zu erstellen, die den folgenden Tools als Informationsquelle dient.
+    */
 public class ConverterAdapterNmap implements IConverter {
-    private ProviderStorage provider = new ProviderStorage();
-    public static void main(String[] args) throws IOException, TransformerException {
-         ProviderStorage provider_main = new ProviderStorage();
-        ConverterAdapterNmap converter = new ConverterAdapterNmap();
-        converter.toXmlfile(provider_main.getFilePath(new File("tool_outputs\\TEST_TAGS.xml")));
-    }
+    private IProvider provider = new ProviderStorage();
 
-
+    /*
+       Methode zur Umformung der Output-Datei in das XML-Format. Da der Output des Nmap-Tools jedoch direkt als XML-Datei ausgegeben wird, ist eine Umformung in dieses Format
+       nicht notwendig. Es wird lefiglich aus einheitlichen Gründen eine Überprüfung übernommen, um sicherzustellen, dass es sich um eine XML-Datei handelt.
+       Des Weiteren übergibt sie die nmap_output.xml and die Methode changeTagName(File file).
+     */
     @Override
     public void toXmlfile(String file_path) throws IOException, TransformerException {
-        System.out.println(provider.isXml(file_path));
         if(provider.isXml(file_path)){
             changeTagName(new File(file_path));
-            return;
         }
     }
 
+    /*
+      Die Methode ist dafür verantwortlich die überarbeiteten XML-Output-Dateien zu ertstellen, die den Tools als Informationsquelle dienen. Ihr wird die XML-Output-Datei
+      übergeben. Mit dieser und der zum Tool gehörigen XSL-Datei (nmap_output_template.xsl) erstellt es eine neue Datei (nmap_parameter_output.xml),
+      in welche der transformierte XML-Stream übertragen wird.
+   */
     @Override
     public void changeTagName(File file) throws IOException, TransformerException {
-        File XSLFILE = new File("xslTemplates\\nmap_output_template.xsl");
+        File XSLFILE = new File("CASPStorage\\xslTemplates\\nmap_output_template.xsl");
         File XMLFILE = file;
-        File OUTPUT = new File("parameterFiles\\nmap_parameter_output.xml");
+        File OUTPUT = new File("CASPStorage\\parameterFiles\\nmap_parameter_output.xml");
 
-        //File XSLFILE = new File("tool_outputs/TEST_TAG_XSL.xsl");
-        //File XMLFILE = file;
-        //File OUTPUT = new File("tool_outputs/TEST_TAG_OUTPUT.xml");
         if(OUTPUT.exists() == false) {
             OUTPUT.createNewFile();
         }

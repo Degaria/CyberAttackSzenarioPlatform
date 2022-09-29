@@ -12,7 +12,7 @@ PLC_WAGO_8202_INFO_URL = "/wbm/state.php"
 PLC_WAGO_8202_PASS_URL = "/wbm/interfaces.php"
 PLC_WAGO_8202_CONFIG_URL = "/wbm/configtools.php"
 MAX_RETRIES = 10
-OUTPUTFILE_TXT = "C:\\Users\\mar20266\\Documents\\SVN\BA\\CyberAttackSzenarioPlatform\\tool_outputs\\change_plc_settings_output.txt"
+OUTPUTFILE_TXT = "C:\\Users\\mar20266\\Documents\\SVN\BA\\CyberAttackSzenarioPlatform\\CASPStorage\\tool_outputs\\change_plc_settings_output.txt"
 def change_plc_settings(login, password, ip_from, plc_type, ip_to):
 	"""Changing PLC settings - modyfing IP address from ip_from to ip_to"""
 	print("\nChanging PLC IP from %s to %s...\n" % (ip_from,ip_to))

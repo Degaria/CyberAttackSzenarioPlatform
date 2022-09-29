@@ -14,30 +14,47 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+    //Provider Klasse für die ChangePLCSettingsScriptRunner Klasse. Sie stellt eine Reihe von Methoden Implementationen zur Verfügung, die die Instanzen der ChangePLCSettingsScriptRunner Klasse mit den notwendigen Informationen versorgen.
 public class Provider_ChangePLCSettings_Script implements IProvider {
 
+
+
+    // gibt die Werte zurück, die zur Ausführung des Skripts in der parameterfreien run-Methode zur Verfügung stehen müssen, um erfolreich ausgeführt werden zu können.
     @Override
     public List<ValuesEnum> getNeededValuesAutomatic() {
         List<ValuesEnum> neede_values = List.of(ValuesEnum.USERNAME, ValuesEnum.PASSWORD,ValuesEnum.IP_ADDRESS,ValuesEnum.PLC_TYP);
         return neede_values;
     }
 
+
+
+    // gibt die Werte zurück, die zur Ausführung des Skripts in der parametrierten run-Methode zur Verfügung stehen müssen, um erfolreich ausgeführt werden zu können.
     @Override
     public List<ValuesEnum> getNeededValuesManual() {
         List<ValuesEnum> neede_values = List.of(ValuesEnum.USERNAME, ValuesEnum.PASSWORD,ValuesEnum.IP_ADDRESS,ValuesEnum.PLC_TYP,ValuesEnum.NEWIP_ADDRESS);
         return neede_values;
     }
 
+
+
+    // gibt die Werte zurück, die nach der Ausführung des Skripts, durch dessen output zur Verfügung gestellt werden.
     @Override
     public List<ValuesEnum> getProvidedValues() {
         return null;
     }
 
+
+
+    // gibt den absoluten Pfad einer Datei zurück.
     @Override
     public String getFilePath(File file) {
         return file.getAbsolutePath();
     }
 
+
+
+    // speichert/schreibt den übergebenen Wert in der übergebenen Datei.
     @Override
     public void saveFile(String value, String filename) throws IOException {
         File file = new File(filename);
@@ -47,9 +64,11 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
         FileWriter writer = new FileWriter(getFilePath(file),false);
         writer.write(value);
         writer.close();
-        return;
     }
 
+
+
+    // gibt für eine Datei zurück, ob sie eine XML-Datei ist oder nicht.
     @Override
     public boolean isXml(String path_to_file) {
         String extension = FilenameUtils.getExtension(path_to_file);
@@ -60,12 +79,15 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
         return false;
     }
 
+
+
+    // Methode, die auf vorhandene Informationsquellen vorheriger Tools zurückgreift (CASP/Storage/parameteriles) und aus diesen die benötigten informationen zurückgibt.
     @Override
     public ArrayList<String> getParametersforExecution() throws ParserConfigurationException, IOException, SAXException {
         ArrayList<String> all_information = new ArrayList<>();
         String information_plc="";
         ArrayList<String> information_user_pw_ip = new ArrayList<>();
-        File dir = new File("parameterFiles\\");
+        File dir = new File("CASPStorage\\parameterFiles\\");
         if (dir.exists() && dir.isDirectory()) {
             File[] files = dir.listFiles();
 
@@ -87,22 +109,22 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
         return all_information;
     }
 
+
+
+    // Methode, welche den PLC-Typ aus einer look_up_plc_information_parameter_output.xml auslesen kann.
     private String plc_from_lpi(File file) throws ParserConfigurationException, IOException, SAXException {
         String all_information = "";
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(file);
         document.getDocumentElement().normalize();
-        NodeList info_list = document.getElementsByTagName("Info1"); //TODO: Sollte später für mehre Devices möglich sein.
+        NodeList info_list = document.getElementsByTagName("Info1");
         for (int i = 0; i < info_list.getLength(); i++) {
             Node device_node = info_list.item(i);
-            //System.out.println(plc_type);
 
             if (device_node.getNodeType() == Node.ELEMENT_NODE) {
                 Element device_Element = (Element) device_node;
-                System.out.println(device_Element);
                 String device_string = getString("PLC_TYPE", device_Element);
-                System.out.println(device_string);
                 if((all_information.contains(device_string)) == false) {
                     all_information = device_string;
                 }
@@ -111,17 +133,18 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
         return all_information;
     }
 
+
+
+    // Methode, welche in der Lage ist Informationen aus einer hydra_parameter-output.xml auszulesen und zu übergeben.
     private ArrayList<String> information_from_hydra(File file) throws ParserConfigurationException, IOException, SAXException {
         ArrayList<String> all_information = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new FileInputStream(file));
         document.getDocumentElement().normalize();
-        //System.out.println(document.getDocumentElement().getNodeName());
         NodeList info_hydra_list = document.getElementsByTagName("results");
         for (int i = 0; i < info_hydra_list.getLength(); i++) {
             Node result = info_hydra_list.item(i);
-            //System.out.println(result);
 
             if (result.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -138,77 +161,17 @@ public class Provider_ChangePLCSettings_Script implements IProvider {
         return all_information;
     }
 
+
+
+    // Methode, welche im Falle das mehrere verschiedene Parameter für die Ausführung einer Funktion benötigt werden diese zurückgibt (hier nicht benötigt, aber durch das gemeinsame Interface implementiert).
     @Override
-    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() throws ParserConfigurationException, IOException, SAXException {
+    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues(){
         return null;
     }
 
-    public ArrayList<String> get_information_for_cps(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
-        ArrayList<String> all_information = new ArrayList<>();
-        ArrayList<String> hydra_information = get_information_hydra(file_hydra);
-        ArrayList<String> lupi_information = get_information_lupi(file_lupi);
 
-        for (String element: hydra_information) {
-            all_information.add(element);
-        }
-        for (String element: lupi_information) {
-            all_information.add(element);
-        }
 
-        return all_information;
-    }
-
-    public ArrayList<String> get_information_hydra(String hydra_file) throws ParserConfigurationException, IOException, SAXException {
-        ArrayList<String> all_information = new ArrayList<>();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new FileInputStream(hydra_file));
-        document.getDocumentElement().normalize();
-        //System.out.println(document.getDocumentElement().getNodeName());
-        NodeList info_hydra_list = document.getElementsByTagName("results");
-        for (int i = 0; i < info_hydra_list.getLength(); i++) {
-            Node result = info_hydra_list.item(i);
-            //System.out.println(result);
-
-            if (result.getNodeType() == Node.ELEMENT_NODE) {
-
-                Element resultElement = (Element) result;
-                String login = getString("login", resultElement);
-                System.out.println(login);
-                String password = getString("password", resultElement);
-                String ip = getString("host", resultElement);
-                all_information.add(login);
-                all_information.add(password);
-                all_information.add(ip);
-            }
-        }
-        return  all_information;
-    }
-
-    public ArrayList<String> get_information_lupi(String lupi_file) throws ParserConfigurationException, IOException, SAXException {
-        ArrayList<String> all_information = new ArrayList<>();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new File(lupi_file));
-        document.getDocumentElement().normalize();
-        NodeList info_lupi_list = document.getElementsByTagName("Device1"); //TODO: Sollte später für mehre Devices möglich sein.
-        for (int i = 0; i < info_lupi_list.getLength(); i++) {
-            Node device_node = info_lupi_list.item(i);
-            //System.out.println(plc_type);
-
-            if (device_node.getNodeType() == Node.ELEMENT_NODE) {
-                Element device_Element = (Element) device_node;
-                System.out.println(device_Element);
-                String device_string = getString("PLC_Type", device_Element);
-                System.out.println(device_string);
-                if((all_information.contains(device_string)) == false) {
-                    all_information.add(device_string);
-                }
-            }
-        }
-        return all_information;
-    }
-
+    // Methode, die einen String für den Value eines Tags einer XML-Datei zurückgibt.
     protected String getString(String tagName, Element element) {
         NodeList list = element.getElementsByTagName(tagName);
         if (list != null && list.getLength() > 0) {

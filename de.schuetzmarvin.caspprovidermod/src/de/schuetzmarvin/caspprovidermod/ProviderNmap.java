@@ -1,5 +1,6 @@
 package de.schuetzmarvin.caspprovidermod;
 
+
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,20 +15,25 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+    // Provider Klasse für die Nmap Klasse. Sie stellt eine Reihe von Methoden Implementationen zur Verfügung, die die Instanzen der Nmap Klasse mit den notwendigen Informationen versorgen.
 public class ProviderNmap implements IProvider {
 
+    // gibt die Werte zurück, die zur Ausführung des Tools in der parameterfreien run-Methode zur Verfügung stehen müssen, um erfolreich ausgeführt werden zu können.
     @Override
     public List<ValuesEnum> getNeededValuesAutomatic() {
         List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
         return needed_values;
     }
 
+    // gibt die Werte zurück, die zur Ausführung des Tools in der parametrierten run-Methode zur Verfügung stehen müssen, um erfolreich ausgeführt werden zu können.
     @Override
     public List<ValuesEnum> getNeededValuesManual() {
         List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
         return needed_values;
     }
 
+    // gibt die Werte zurück, die nach der Ausführung des Tools, durch dessen output zur Verfügung gestellt werden.
     @Override
     public List<ValuesEnum> getProvidedValues() {
         List<ValuesEnum> _valueEnums = List.of(ValuesEnum.IP_ADDRESS, ValuesEnum.MAC_ADDRESS, ValuesEnum.PORT_ID, ValuesEnum.PORT_PROTOCOL, ValuesEnum.PORT_STATUS, ValuesEnum.VENDOR, ValuesEnum.PORT_SERVICE_NAME);
@@ -35,10 +41,11 @@ public class ProviderNmap implements IProvider {
     }
 
 
+    // Methode, die auf vorhandene Informationsquellen vorheriger Tools zurückgreift (CASP/Storage/parameteriles) und aus diesen die benötigten informationen zurückgibt.
     public ArrayList<String> getParametersforExecution() throws ParserConfigurationException, IOException, SAXException {
         ArrayList<String> all_information = new ArrayList<>();
         ArrayList<String> information_tool;
-        File dir = new File("parameterFiles\\");
+        File dir = new File("CASPStorage\\parameterFiles\\");
         if (dir.exists() && dir.isDirectory()) {
             File[] files = dir.listFiles();
 
@@ -81,11 +88,13 @@ public class ProviderNmap implements IProvider {
         return all_information;
     }
 
+    // Methode, welche im Falle das mehrere verschiedene Parameter für die Ausführung einer Funktion benötigt werden diese zurückgibt (hier nicht benötigt, aber aufgrund de interfaces mit aufgenommen).
     @Override
-    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() throws ParserConfigurationException, IOException, SAXException {
+    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() {
         return null;
     }
 
+    // Methode, welche die IP-Adressen aus einer nmap_parameter_output.xml ausließt und zurückgibt.
     private ArrayList<String> ip_from_nmap(File file) throws ParserConfigurationException, SAXException, IOException {
         boolean helper_for_double_values = false;
         ArrayList<String> all_information = new ArrayList<>();
@@ -93,11 +102,9 @@ public class ProviderNmap implements IProvider {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new FileInputStream(file));
         document.getDocumentElement().normalize();
-        //System.out.println(document.getDocumentElement().getNodeName());
         NodeList info_list = document.getElementsByTagName("ADDRESS");
         for (int i = 0; i < info_list.getLength(); i++) {
             Node result = info_list.item(i);
-            //System.out.println(result);
 
             if (result.getNodeType() == Node.ELEMENT_NODE) {
                 Element resultElement = (Element) result;
@@ -125,16 +132,16 @@ public class ProviderNmap implements IProvider {
         return all_information;
     }
 
+    // Methode, welche die IP-Adresse aus einer look_up_plc_information_parameter_output.xml ausließt und zurückgibt.
     private ArrayList<String> ip_from_lpi(File file) throws ParserConfigurationException, SAXException, IOException {
         ArrayList<String> all_information = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(file);
         document.getDocumentElement().normalize();
-        NodeList info_list = document.getElementsByTagName("ADDRESS"); //TODO: Sollte später für mehre Devices möglich sein.
+        NodeList info_list = document.getElementsByTagName("Info1");
         for (int i = 0; i < info_list.getLength(); i++) {
             Node device_node = info_list.item(i);
-            //System.out.println(plc_type);
 
             if (device_node.getNodeType() == Node.ELEMENT_NODE) {
                 Element device_Element = (Element) device_node;
@@ -149,17 +156,16 @@ public class ProviderNmap implements IProvider {
         return all_information;
     }
 
+    // Methode, welche die IP-Adresse aus einer hydra_parameter_output.xml ausließt und zurückgibt.
     private ArrayList<String> ip_from_hydra(File file) throws ParserConfigurationException, SAXException, IOException {
         ArrayList<String> all_information = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new FileInputStream(file));
         document.getDocumentElement().normalize();
-        //System.out.println(document.getDocumentElement().getNodeName());
         NodeList info_hydra_list = document.getElementsByTagName("results");
         for (int i = 0; i < info_hydra_list.getLength(); i++) {
             Node result = info_hydra_list.item(i);
-            //System.out.println(result);
 
             if (result.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -173,6 +179,7 @@ public class ProviderNmap implements IProvider {
         return all_information;
     }
 
+    // Methode, die einen String für den Value eines Tags einer XML-Datei zurückgibt.
     protected String getString(String tagName, Element element) {
         NodeList list = element.getElementsByTagName(tagName);
         if (list != null && list.getLength() > 0) {
@@ -190,50 +197,33 @@ public class ProviderNmap implements IProvider {
         return null;
     }
 
+    // gibt den absoluten Pfad einer Datei zurück.
     @Override
     public String getFilePath(File file) {
         return file.getAbsolutePath();
     }
 
+    // speichert/schreibt den übergebenen Wert in der übergebenen Datei.
     @Override
     public void saveFile(String value, String filename) throws IOException {
         File file = new File(filename);
-        if (file.exists() == false) {
+        if(file.exists() == false) {
             file.createNewFile();
         }
-        FileWriter writer = new FileWriter(getFilePath(file), false);
+        FileWriter writer = new FileWriter(getFilePath(file),false);
         writer.write(value);
         writer.close();
-        return;
     }
 
+    // gibt für eine Datei zurück, ob sie eine XML-Datei ist oder nicht.
     @Override
     public boolean isXml(String path_to_file) {
         String extension = FilenameUtils.getExtension(path_to_file);
         String xml_extension = "xml";
-        if (extension.equals(xml_extension)) {
+        if(extension.equals(xml_extension)) {
             return true;
         }
         return false;
     }
 
-    /*@Override
-    public boolean check_if_is_done(String file) throws IOException {
-        return false;
-    }
-
-    @Override
-    public boolean is_xml(String path_to_file) {
-        return false;
-    }
-
-    @Override
-    public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> get_information(String file_hydra, String file_lupi) throws IOException, SAXException, ParserConfigurationException {
-        return null;
-    }*/
 }

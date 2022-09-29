@@ -17,31 +17,43 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+    //Provider Klasse für die LookupPLCInformationScriptRunner Klasse. Sie stellt eine Reihe von Methoden Implementationen zur Verfügung, die die Instanzen der LookupPLCInformationScriptRunner Klasse mit den notwendigen Informationen versorgen.
 public class Provider_LookupPLCInformation_Script implements IProvider {
 
+
+    // gibt die Werte zurück, die zur Ausführung des Skripts in der parameterfreien run-Methode zur Verfügung stehen müssen, um erfolreich ausgeführt werden zu können.
     @Override
     public List<ValuesEnum> getNeededValuesAutomatic() {
         List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
         return needed_values;
     }
 
+
+    // gibt die Werte zurück, die zur Ausführung des Skripts in der parametrierten run-Methode zur Verfügung stehen müssen, um erfolreich ausgeführt werden zu können.
     @Override
     public List<ValuesEnum> getNeededValuesManual() {
         List<ValuesEnum> needed_values = List.of(ValuesEnum.IP_ADDRESS);
         return needed_values;
     }
 
+
+    // gibt die Werte zurück, die nach der Ausführung des Skripts, durch dessen output zur Verfügung gestellt werden.
     @Override
     public List<ValuesEnum> getProvidedValues() {
         List<ValuesEnum> _valueEnums = List.of(ValuesEnum.IP_ADDRESS, ValuesEnum.FIRMWARE_REVISION, ValuesEnum.MAC_ADDRESS, ValuesEnum.ORDER_NUMBER, ValuesEnum.PLC_TYP);
         return _valueEnums;
     }
 
+
+    // gibt den absoluten Pfad einer Datei zurück.
     @Override
     public String getFilePath(File file) {
         return file.getAbsolutePath();
     }
 
+
+    // speichert/schreibt den übergebenen Wert in der übergebenen Datei.
     @Override
     public void saveFile(String value, String filename) throws IOException {
         File file = new File(filename);
@@ -51,9 +63,10 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         FileWriter writer = new FileWriter(getFilePath(file),false);
         writer.write(value);
         writer.close();
-        return;
     }
 
+
+    // gibt für eine Datei zurück, ob sie eine XML-Datei ist oder nicht.
     @Override
     public boolean isXml(String path_to_file) {
         String extension = FilenameUtils.getExtension(path_to_file);
@@ -64,11 +77,13 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         return false;
     }
 
+
+    // Methode, die auf vorhandene Informationsquellen vorheriger Tools zurückgreift (CASP/Storage/parameteriles) und aus diesen die benötigten informationen zurückgibt.
     @Override
     public ArrayList<String> getParametersforExecution() throws ParserConfigurationException, IOException, SAXException {
         ArrayList<String> all_information = new ArrayList<>();
         ArrayList<String> information_tool;
-        File dir = new File("parameterFiles\\");
+        File dir = new File("CASPStorage\\parameterFiles\\");
         if (dir.exists() && dir.isDirectory()) {
             File[] files = dir.listFiles();
 
@@ -111,11 +126,15 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         return all_information;
     }
 
+
+    // Methode, welche im Falle das mehrere verschiedene Parameter für die Ausführung einer Funktion benötigt werden diese zurückgibt (hier nicht benötigt, aber durch das gemeinsame Interface implementiert).
     @Override
-    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues() throws ParserConfigurationException, IOException, SAXException {
+    public ArrayList<ArrayList<String>> getParametersforExecutionmultipleValues(){
         return null;
     }
 
+
+    // Methode, welche die IP-Adressen aus einer nmap_parameter_output.xml ausließt und zurückgibt.
     private ArrayList<String> ip_from_nmap(File file) throws ParserConfigurationException, SAXException, IOException {
         boolean helper_for_double_values = false;
         ArrayList<String> all_information = new ArrayList<>();
@@ -123,11 +142,9 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new FileInputStream(file));
         document.getDocumentElement().normalize();
-        //System.out.println(document.getDocumentElement().getNodeName());
         NodeList info_list = document.getElementsByTagName("ADDRESS");
         for (int i = 0; i < info_list.getLength(); i++) {
             Node result = info_list.item(i);
-            //System.out.println(result);
 
             if (result.getNodeType() == Node.ELEMENT_NODE) {
                 Element resultElement = (Element) result;
@@ -155,22 +172,21 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         return all_information;
     }
 
+
+    // Methode, welche die IP-Adresse aus einer look_up_plc_information_parameter_output.xml ausließt und zurückgibt.
     private ArrayList<String> ip_from_lpi(File file) throws ParserConfigurationException, SAXException, IOException {
         ArrayList<String> all_information = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(file);
         document.getDocumentElement().normalize();
-        NodeList info_list = document.getElementsByTagName("ADDRESS"); //TODO: Sollte später für mehre Devices möglich sein.
+        NodeList info_list = document.getElementsByTagName("Info1");
         for (int i = 0; i < info_list.getLength(); i++) {
             Node device_node = info_list.item(i);
-            //System.out.println(plc_type);
 
             if (device_node.getNodeType() == Node.ELEMENT_NODE) {
                 Element device_Element = (Element) device_node;
-                System.out.println(device_Element);
                 String device_string = getString("ADDRESS", device_Element);
-                System.out.println(device_string);
                 if((all_information.contains(device_string)) == false) {
                     all_information.add(device_string);
                 }
@@ -179,23 +195,22 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         return all_information;
     }
 
+
+    // Methode, welche die IP-Adresse aus einer hydra_parameter_output.xml ausließt und zurückgibt.
     private ArrayList<String> ip_from_hydra(File file) throws ParserConfigurationException, SAXException, IOException {
         ArrayList<String> all_information = new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new FileInputStream(file));
         document.getDocumentElement().normalize();
-        //System.out.println(document.getDocumentElement().getNodeName());
         NodeList info_hydra_list = document.getElementsByTagName("results");
         for (int i = 0; i < info_hydra_list.getLength(); i++) {
             Node result = info_hydra_list.item(i);
-            //System.out.println(result);
 
             if (result.getNodeType() == Node.ELEMENT_NODE) {
 
                 Element resultElement = (Element) result;
                 String ip_address = getString("ADDRESS", resultElement);
-                System.out.println(ip_address);
                 all_information.add(ip_address);
             }
         }
@@ -203,6 +218,8 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
         return all_information;
     }
 
+
+    // Methode, die einen String für den Value eines Tags einer XML-Datei zurückgibt.
     protected String getString(String tagName, Element element) {
         NodeList list = element.getElementsByTagName(tagName);
         if (list != null && list.getLength() > 0) {
@@ -219,43 +236,4 @@ public class Provider_LookupPLCInformation_Script implements IProvider {
 
         return null;
     }
-    /*public ArrayList<String> get_ip_address(String file) throws ParserConfigurationException, IOException, SAXException {
-        boolean helper_for_double_values = false;
-        ArrayList<String> ip_address_list = new ArrayList<>();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new File(file));
-        document.getDocumentElement().normalize();
-        NodeList addresses_list = document.getElementsByTagName("address");
-        for (int i = 0; i < addresses_list.getLength(); i++) {
-            Node address = addresses_list.item(i);
-
-            if (address.getNodeType() == Node.ELEMENT_NODE) {
-
-                Element addressElement = (Element) address;
-
-                if (addressElement.hasAttribute("vendor")) {
-
-                } else {
-                    String ip_address = addressElement.getAttribute("addr");
-                    if (ip_address_list.size() == 0) {
-                        ip_address_list.add(ip_address);
-                    }
-                    for (String string : ip_address_list) {
-                        if (ip_address.equals(string)) {
-                            helper_for_double_values = true;
-                        }
-                    }
-
-                    if(helper_for_double_values == false){
-                        ip_address_list.add(ip_address);
-                    }
-                }
-            }
-            helper_for_double_values = false;
-        }
-        return ip_address_list;
-    }
-
-     */
 }
