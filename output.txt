@@ -1,0 +1,271 @@
+Auflistung der Ordnerpfade
+Volumeseriennummer : 000000FB 0AE6:1391
+C:\USERS\MAR20266\DOCUMENTS\SVN\BA\CYBERATTACKSZENARIOPLATFORM
+|   CyberAttackSzenarioPlatform.iml
+|   output.txt
+|   
++---.idea
+|   |   .gitignore
+|   |   compiler.xml
+|   |   misc.xml
+|   |   modules.xml
+|   |   uiDesigner.xml
+|   |   vcs.xml
+|   |   workspace.xml
+|   |   
+|   \---libraries
+|           com_fasterxml_jackson_core_jackson_core_2_13_3.xml
+|           com_fasterxml_jackson_core_jackson_databind_2_13_3.xml
+|           com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_13_3.xml
+|           json.xml
+|           org_jsoup_jsoup_1_15_3.xml
+|           
++---CASPStorage
+|   +---documents
+|   |       dictionary.txt
+|   |       
+|   +---parameterFiles
+|   +---scripts
+|   |       change_plc_settings.py
+|   |       lookup_plc_information.py
+|   |       
+|   +---tool_outputs
+|   \---xslTemplates
+|           hydra_output_template.xsl
+|           look_up_plc_information_output_template.xsl
+|           nmap_output_template.xsl
+|           
++---de.schuetzmarvin.caspcontrollermod
+|   |   de.schuetzmarvin.caspcontrollermod.iml
+|   |   output.txt
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       +---de
+|       |   \---schuetzmarvin
+|       |       \---caspmainmod
+|       |               Controller.java
+|       |               
+|       \---META-INF
+|               MANIFEST.MF
+|               
++---de.schuetzmarvin.caspconvertermod
+|   |   de.schuetzmarvin.caspconvertermod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---caspconvertermod
+|                       ConverterAdapterChangePLCSettingsScript.java
+|                       ConverterAdapterHydra.java
+|                       ConverterAdapterLookupPLCInformationScript.java
+|                       ConverterAdapterNmap.java
+|                       ConverterAdapterScripts.java
+|                       FormatEqualizerClass.java
+|                       IConverter.java
+|                       IFormatEqualizer.java
+|                       JSONParser.java
+|                       
++---de.schuetzmarvin.casphydramod
+|   |   de.schuetzmarvin.casphydramod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---casphydramod
+|                       Hydra.java
+|                       IHydra.java
+|                       
++---de.schuetzmarvin.caspnmapmod
+|   |   de.schuetzmarvin.caspnmapmod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---caspnmapmod
+|                       INmap.java
+|                       Nmap.java
+|                       NmapIPScan.java
+|                       
++---de.schuetzmarvin.caspoutputmod
+|   |   de.schuetzmarvin.caspoutputmod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---caspoutputmod
+|                       IOutput.java
+|                       Output.java
+|                       
++---de.schuetzmarvin.caspprovidermod
+|   |   de.schuetzmarvin.caspprovidermod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---caspprovidermod
+|                       IProvider.java
+|                       ProviderHydra.java
+|                       ProviderHydraClass.java
+|                       ProviderNmap.java
+|                       ProviderNmapClass.java
+|                       ProviderOutput.java
+|                       ProviderSkripte.java
+|                       ProviderStorage.java
+|                       Provider_ChangePLCSettings_Script.java
+|                       Provider_LookupPLCInformation_Script.java
+|                       ValuesEnum.java
+|                       
++---de.schuetzmarvin.caspscriptsmod
+|   |   de.schuetzmarvin.caspscriptsmod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---caspscriptsmod
+|                       ChangePLCSettingsScriptRunner.java
+|                       IScriptrunner.java
+|                       LookupPLCInformationScriptRunner.java
+|                       SkiptRunnerClass.java
+|                       SkriptRunnerClass2.java
+|                       
++---de.schuetzmarvin.caspvalidatormod
+|   |   de.schuetzmarvin.caspvalidatormod.iml
+|   |   
+|   \---src
+|       |   module-info.java
+|       |   
+|       \---de
+|           \---schuetzmarvin
+|               \---caspvalidatormod
+|                       IValidatorCASP.java
+|                       ValidatorCASP.java
+|                       
++---lib
+|       jackson-annotations-2.13.3.jar
+|       jackson-core-2.13.3.jar
+|       jackson-databind-2.13.3.jar
+|       jackson-dataformat-xml-2.13.3.jar
+|       stax2-api-4.2.1.jar
+|       woodstox-core-6.2.7.jar
+|       
+\---out
+    \---production
+        +---de.schuetzmarvin.caspcontrollermod
+        |   |   module-info.class
+        |   |   
+        |   +---de
+        |   |   \---schuetzmarvin
+        |   |       \---caspmainmod
+        |   |               Controller.class
+        |   |               
+        |   \---META-INF
+        |           MANIFEST.MF
+        |           
+        +---de.schuetzmarvin.caspconvertermod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---caspconvertermod
+        |                   ConverterAdapterChangePLCSettingsScript.class
+        |                   ConverterAdapterHydra.class
+        |                   ConverterAdapterLookupPLCInformationScript.class
+        |                   ConverterAdapterNmap.class
+        |                   IConverter.class
+        |                   
+        +---de.schuetzmarvin.caspformatequalizermod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---caspformatequalizermod
+        |                   FormatEqualizerClass.class
+        |                   IFormatEqualizer.class
+        |                   JSONParser.class
+        |                   
+        +---de.schuetzmarvin.casphydramod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---casphydramod
+        |                   Hydra.class
+        |                   IHydra.class
+        |                   
+        +---de.schuetzmarvin.caspmainmod
+        |   |   module-info.class
+        |   |   
+        |   +---de
+        |   |   \---schuetzmarvin
+        |   |       \---caspmainmod
+        |   |               Controller.class
+        |   |               
+        |   \---META-INF
+        |           MANIFEST.MF
+        |           
+        +---de.schuetzmarvin.caspnmapmod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---caspnmapmod
+        |                   INmap.class
+        |                   Nmap.class
+        |                   
+        +---de.schuetzmarvin.caspoutputmod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---caspoutputmod
+        |                   IOutput.class
+        |                   Output.class
+        |                   
+        +---de.schuetzmarvin.caspprovidermod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---caspprovidermod
+        |                   IProvider.class
+        |                   ProviderHydra.class
+        |                   ProviderNmap.class
+        |                   ProviderOutput.class
+        |                   ProviderStorage.class
+        |                   Provider_ChangePLCSettings_Script.class
+        |                   Provider_LookupPLCInformation_Script.class
+        |                   ValuesEnum.class
+        |                   
+        +---de.schuetzmarvin.caspscriptsmod
+        |   |   module-info.class
+        |   |   
+        |   \---de
+        |       \---schuetzmarvin
+        |           \---caspscriptsmod
+        |                   ChangePLCSettingsScriptRunner.class
+        |                   IScriptrunner.class
+        |                   LookupPLCInformationScriptRunner.class
+        |                   
+        \---de.schuetzmarvin.caspvalidatormod
+            |   module-info.class
+            |   
+            \---de
+                \---schuetzmarvin
+                    \---caspvalidatormod
+                            IValidatorCASP.class
+                            ValidatorCASP.class
+                            

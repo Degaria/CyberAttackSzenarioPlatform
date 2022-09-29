@@ -1,0 +1,20 @@
+<root>
+    <Info6>
+        <INFO>Success!_PLC_replies_at_IP:_192.168.1.2_port:_80_(http)_with_status_code:_200</INFO>
+    </Info6>
+    <Info1>
+        <INFO>Changing_PLC_IP_from_192.168.1.2_to_192.168.1.30...</INFO>
+    </Info1>
+    <Info2>
+        <INFO>Checking_PLC_connectivity...</INFO>
+    </Info2>
+    <Info3>
+        <INFO>Success!_PLC_replies_at_IP:_192.168.1.30_port:_80_(http)_with_status_code:_200</INFO>
+    </Info3>
+    <Info4>
+        <INFO>Changing_PLC_IP_from_192.168.1.30_to_192.168.1.2...</INFO>
+    </Info4>
+    <Info5>
+        <INFO>Checking_PLC_connectivity...</INFO>
+    </Info5>
+</root>

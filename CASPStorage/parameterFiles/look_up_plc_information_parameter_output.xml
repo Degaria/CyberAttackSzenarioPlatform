@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <Info1>
+        <ORDER_NUMBER>750-880/025-002</ORDER_NUMBER>
+        <FIRMWARE_REVISION>01.08.21</FIRMWARE_REVISION>
+        <ADDRESS>192.168.1.1</ADDRESS>
+        <ADDRESS>0030DE224776</ADDRESS>
+        <PLC_TYPE>880</PLC_TYPE>
+    </Info1>
+    <Info2>
+        <Order_number>750-880/025-002</Order_number>
+        <Firmware_revision>01.08.21</Firmware_revision>
+        <IP>192.168.1.2</IP>
+        <MAC_Address>0030DE224752</MAC_Address>
+        <PLC_Type>880</PLC_Type>
+    </Info2>
+    <Info3>
+        <FAILED>Could_not_retrive_device_information!</FAILED>
+        <IP>192.168.1.3</IP>
+    </Info3>
+    <Info4>
+        <FAILED>Could_not_retrive_device_information!</FAILED>
+        <ADDRESS>192.168.1.4</ADDRESS>
+    </Info4>
+</root>

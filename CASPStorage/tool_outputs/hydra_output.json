@@ -1,0 +1,11 @@
+{ "generator": {
+	"software": "Hydra", "version": "v9.1", "built": "2022-09-28 14:41:42",
+	"server": "192.168.1.2", "service": "ftp", "jsonoutputversion": "1.00",
+	"commandline": "hydra -o C:\Users\mar20266\Documents\SVN\BA\CyberAttackSzenarioPlatform\CASPStorage\tool_outputs\hydra_output.json -b json -s 21 -l admin -P C:\Users\mar20266\Documents\SVN\BA\CyberAttackSzenarioPlatform\CASPStorage\documents\dictionary.txt 192.168.1.2 ftp"
+	},
+"results": [
+	{"port": 21, "service": "ftp", "host": "192.168.1.2", "login": "admin", "password": "wago"}
+	],
+"success": true,
+"errormessages": [  ],
+"quantityfound": 1   }

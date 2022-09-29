@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?><!-- Nmap 7.93 scan initiated Wed Sep 28 14:38:46 2022 as: nmap -oX C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\CASPStorage\\tool_outputs\\nmap_output.xml -p 1-100 192.168.1.1-4 --><nmaprun scanner="nmap" args="nmap -oX C:\\Users\\mar20266\\Documents\\SVN\\BA\\CyberAttackSzenarioPlatform\\CASPStorage\\tool_outputs\\nmap_output.xml -p 1-100 192.168.1.1-4" start="1664368726" startstr="Wed Sep 28 14:38:46 2022" version="7.93" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="100" services="1-100"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.2" addrtype="ipv4"/>
+<address addr="00:30:DE:22:47:52" addrtype="mac" vendor="Wago Kontakttechnik Gmbh"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.3" addrtype="ipv4"/>
+<address addr="64:D2:41:05:1A:39" addrtype="mac" vendor="Keith &amp; Koep GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.4" addrtype="ipv4"/>
+<address addr="00:60:78:0C:51:25" addrtype="mac" vendor="Power Measurement"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.1" addrtype="ipv4"/>
+<address addr="00:30:DE:22:47:76" addrtype="mac" vendor="Wago Kontakttechnik Gmbh"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1664368741" endtime="1664368741"><status state="up" reason="arp-response" reason_ttl="0"/>
+<ADDRESS addr="192.168.1.1" addrtype="ipv4"/>
+<ADDRESS addr="00:30:DE:22:47:76" addrtype="mac" vendor="Wago Kontakttechnik Gmbh"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="98">
+<extrareasons reason="reset" count="98" proto="tcp" ports="1-20,22-79,81-100"/>
+</extraports>
+<PORT protocol="tcp" portid="21"><PORT_STATE state="open" reason="syn-ack" reason_ttl="64"/><PORT_SERVICE name="ftp" method="table" conf="3"/></PORT>
+<PORT protocol="tcp" portid="80"><PORT_STATE state="open" reason="syn-ack" reason_ttl="64"/><PORT_SERVICE name="http" method="table" conf="3"/></PORT>
+</ports>
+<times srtt="1723" rttvar="620" to="100000"/>
+</host>
+<host starttime="1664368741" endtime="1664368741"><status state="up" reason="arp-response" reason_ttl="0"/>
+<ADDRESS addr="192.168.1.2" addrtype="ipv4"/>
+<ADDRESS addr="00:30:DE:22:47:52" addrtype="mac" vendor="Wago Kontakttechnik Gmbh"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="98">
+<extrareasons reason="reset" count="98" proto="tcp" ports="1-20,22-79,81-100"/>
+</extraports>
+<PORT protocol="tcp" portid="21"><PORT_STATE state="open" reason="syn-ack" reason_ttl="64"/><PORT_SERVICE name="ftp" method="table" conf="3"/></PORT>
+<PORT protocol="tcp" portid="80"><PORT_STATE state="open" reason="syn-ack" reason_ttl="64"/><PORT_SERVICE name="http" method="table" conf="3"/></PORT>
+</ports>
+<times srtt="1525" rttvar="633" to="100000"/>
+</host>
+<host starttime="1664368741" endtime="1664368741"><status state="up" reason="arp-response" reason_ttl="0"/>
+<ADDRESS addr="192.168.1.3" addrtype="ipv4"/>
+<ADDRESS addr="64:D2:41:05:1A:39" addrtype="mac" vendor="Keith &amp; Koep GmbH"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="98">
+<extrareasons reason="reset" count="98" proto="tcp" ports="1-20,22-79,81-100"/>
+</extraports>
+<PORT protocol="tcp" portid="21"><PORT_STATE state="open" reason="syn-ack" reason_ttl="128"/><PORT_SERVICE name="ftp" method="table" conf="3"/></PORT>
+<PORT protocol="tcp" portid="80"><PORT_STATE state="open" reason="syn-ack" reason_ttl="128"/><PORT_SERVICE name="http" method="table" conf="3"/></PORT>
+</ports>
+<times srtt="2922" rttvar="1063" to="100000"/>
+</host>
+<host starttime="1664368741" endtime="1664368741"><status state="up" reason="arp-response" reason_ttl="0"/>
+<ADDRESS addr="192.168.1.4" addrtype="ipv4"/>
+<ADDRESS addr="00:60:78:0C:51:25" addrtype="mac" vendor="Power Measurement"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="98">
+<extrareasons reason="reset" count="98" proto="tcp" ports="1-20,22-79,81-100"/>
+</extraports>
+<PORT protocol="tcp" portid="21"><PORT_STATE state="open" reason="syn-ack" reason_ttl="64"/><PORT_SERVICE name="ftp" method="table" conf="3"/></PORT>
+<PORT protocol="tcp" portid="80"><PORT_STATE state="open" reason="syn-ack" reason_ttl="64"/><PORT_SERVICE name="http" method="table" conf="3"/></PORT>
+</ports>
+<times srtt="20132" rttvar="20018" to="100204"/>
+</host>
+<runstats><finished time="1664368741" timestr="Wed Sep 28 14:39:01 2022" summary="Nmap done at Wed Sep 28 14:39:01 2022; 4 IP addresses (4 hosts up) scanned in 14.44 seconds" elapsed="14.44" exit="success"/><hosts up="4" down="0" total="4"/>
+</runstats>
+</nmaprun>
